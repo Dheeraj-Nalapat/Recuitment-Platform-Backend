@@ -3,6 +3,7 @@ import {
  
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   
 } from "class-validator";
@@ -37,4 +38,28 @@ export class EmployeeDto {
  
 }
 
-
+export class UpdateEmployeeDto {
+    @IsOptional()
+    @IsString()
+    name: string;
+  
+    @IsOptional()
+    @IsNotEmpty()
+    @IsString()
+    email: string;
+  
+    @IsOptional()
+    @IsNumber()
+    experience: number;
+  
+    @IsOptional()
+    @IsString()
+    password: string;
+  
+   
+    @IsOptional()
+    @IsString()
+    position: string;
+   
+  
+}
