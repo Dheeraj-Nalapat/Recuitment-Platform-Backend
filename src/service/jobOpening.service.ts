@@ -25,7 +25,7 @@ class JobOpeningService {
     position: string,
     description: string,
     location: string,
-    skills: JSON,
+    skills: { name: string[] },
     experience: string,
     noOfOpenings: number,
     active: boolean
@@ -54,7 +54,7 @@ class JobOpeningService {
     position: string,
     description: string,
     location: string,
-    skill: JSON,
+    skill: { name: string[] },
     experience: string,
     noOfOpenings: number,
     active: boolean

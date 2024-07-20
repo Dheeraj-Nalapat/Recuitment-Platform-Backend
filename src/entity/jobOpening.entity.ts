@@ -11,8 +11,8 @@ class JobOpening extends AbstractEntity {
   @Column()
   description: string;
 
-  @Column()
-  skill: JSON;
+  @Column("simple-json")
+  skill: { name: string[] };
 
   @Column()
   location: string;
