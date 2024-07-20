@@ -1,13 +1,11 @@
 import {
   IsEmail,
- 
   IsNotEmpty,
   IsNumber,
   IsString,
   
 } from "class-validator";
 
-import { Type } from "class-transformer";
 import "reflect-metadata";
 
 export class CreateEmployeeDto {
