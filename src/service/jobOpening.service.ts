@@ -92,3 +92,5 @@ class JobOpeningService {
     return this.jobOpeningRepository.softRemove(id);
   };
 }
+
+export default JobOpeningService;
