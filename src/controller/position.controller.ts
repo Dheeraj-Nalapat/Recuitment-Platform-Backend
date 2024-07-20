@@ -9,14 +9,14 @@ class PositionController {
   public router: Router;
   constructor(private positionService: PositionService) {
     this.router = Router();
-    this.router.get("/", authorize, this.getAllPositions);
+    this.router.get("/", authorize, this.getAllPosition);
     this.router.get("/:id", authorize, this.getPosition);
     this.router.post("/", authorize, this.createPosition);
     this.router.put("/:id", authorize, this.updatePosition);
     this.router.delete("/:id", authorize, this.deletePosition);
   }
 
-  public getAllPositions = async (
+  public getAllPosition = async (
     req: Request,
     res: Response,
     next: NextFunction
