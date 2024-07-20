@@ -24,6 +24,10 @@ export const ErrorCodes: { [key: string]: CustomError } = {
     CODE: "POSITION_WITH_ID_NOT_FOUND",
     MESSAGE: "Position with given ID not found",
   },
+  JOBOPENING_WITH_ID_NOT_FOUND: {
+    CODE: "JOBOPENING_WITH_ID_NOT_FOUND",
+    MESSAGE: "Job Opening with the given ID not found",
+  },
 };
 
 export interface CustomError {

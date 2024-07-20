@@ -20,8 +20,8 @@ class JobOpening extends AbstractEntity {
   @Column()
   experience: number;
 
-  @Column({ nullable: true })
-  noOfOpening: string;
+  @Column()
+  noOfOpening: number;
 
   @Column()
   active: boolean;

@@ -93,3 +93,5 @@ class EmployeeService {
     return this.employeeRepository.softRemove(id);
   };
 }
+
+export default EmployeeService;
