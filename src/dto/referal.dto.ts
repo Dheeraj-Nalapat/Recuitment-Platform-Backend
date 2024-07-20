@@ -7,7 +7,7 @@ import {
   IsString,
 } from "class-validator";
 
-export default class ReferalDto {
+export class ReferalDto {
   @IsNotEmpty()
   @IsNumber()
   employeeId: number;
@@ -33,7 +33,7 @@ export default class ReferalDto {
   bonusGiven: boolean;
 }
 
-export  class UpdateReferalDto {
+export class UpdateReferalDto {
   @IsOptional()
   @IsNumber()
   employeeId: number;

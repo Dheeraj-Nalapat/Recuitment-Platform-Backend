@@ -2,9 +2,9 @@ import { NextFunction, Request, Response, Router } from "express";
 import PositionService from "../service/position.service";
 import HttpException from "../exceptions/http.exceptions";
 import { plainToInstance } from "class-transformer";
-import PositionDto from "../dto/position.dto";
 import { validate } from "class-validator";
 import authorize from "../middleware/authorization.middleware";
+import { PositionDto } from "../dto/position.dto";
 class PositionController {
   public router: Router;
   constructor(private positionService: PositionService) {
@@ -14,11 +14,6 @@ class PositionController {
     this.router.post("/", this.createPosition);
     this.router.put("/:id", this.updatePosition);
     this.router.delete("/:id", this.deletePosition);
-    this.router.get("/",  this.getAllPosition);
-    this.router.get("/:id",  this.getPosition);
-    this.router.post("/",  this.createPosition);
-    this.router.put("/:id",  this.updatePosition);
-    this.router.delete("/:id",  this.deletePosition);
   }
 
   public getAllPosition = async (

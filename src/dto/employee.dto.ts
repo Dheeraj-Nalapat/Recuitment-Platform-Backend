@@ -8,7 +8,7 @@ import {
 
 import "reflect-metadata";
 
-export default class CreateEmployeeDto {
+export class CreateEmployeeDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -42,7 +42,7 @@ export class UpdateEmployeeDto {
 
   @IsOptional()
   @IsNumber()
-  experience: number;
+  experience: string;
 
   @IsOptional()
   @IsString()

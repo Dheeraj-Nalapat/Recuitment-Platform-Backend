@@ -1,16 +1,18 @@
 import { NextFunction, Request, Response, Router } from "express";
 import JobOpeningService from "../service/jobOpening.service";
 import { ErrorCodes } from "../utils/error.code";
+import { plainToInstance } from "class-transformer";
+import { CreateJobOpeningDto } from "../dto/jobOpening.dto";
 
 class JobOpeningController {
   public router: Router;
   constructor(private jobOpeningService: JobOpeningService) {
     this.router = Router();
-    this.router.get("/", this.getAllJobs);
-    this.router.get("/:jobId", this.getJobById);
+    this.router.get("/", this.getAllJobOpening);
+    this.router.get("/:jobId", this.getJobOpeningById);
   }
 
-  public getAllJobs = async (
+  public getAllJobOpening = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -19,7 +21,7 @@ class JobOpeningController {
     res.status(200).send(jobs);
   };
 
-  public getJobById = async (
+  public getJobOpeningById = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -38,8 +40,18 @@ class JobOpeningController {
     }
   };
 
-
- // TODO add create and edit job.
+  public createJobOpening = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const jobOpeningDto = plainToInstance(CreateJobOpeningDto, req.body);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  };
 }
 
 export default JobOpeningController;
