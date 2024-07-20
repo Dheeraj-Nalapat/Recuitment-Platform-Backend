@@ -1,19 +1,19 @@
-// import Candidate from "../entity/candidate.entity";
-// import CandidateRepository from "../repository/candidate.repository";
-// import { ErrorCodes } from "../utils/error.code";
+import Candidate from "../entity/candidate.entity";
+import CandidateRepository from "../repository/candidate.repository";
+import { ErrorCodes } from "../utils/error.code";
 
-// class CandidateService {
-//   constructor(
-//     private candidateRepository: CandidateRepository,
-//     private candidateService: CandidateService
-//   ) {}
+class CandidateService {
+  constructor(
+    private candidateRepository: CandidateRepository,
+    
+  ) {}
 
-//   getAllCandidate = async () => {
-//     return this.candidateRepository.find();
-//   };
-//   getCandidateById = async (id: number) => {
-//     return this.candidateRepository.findOneBy({ id });
-//   };
+  getAllCandidate = async () => {
+    return this.candidateRepository.find();
+  };
+  getCandidateById = async (id: number) => {
+    return this.candidateRepository.findOneBy({ id });
+  };
 
   getCandidateByName = async (name: string) => {
     return this.candidateRepository.findOneBy({ name });
@@ -32,8 +32,8 @@
     newCandidate.resume = resume;
     newCandidate.skill = skill;
 
-//     return this.candidateRepository.save(newCandidate);
-//   };
+    return this.candidateRepository.save(newCandidate);
+  };
 
   updateCandidateById = async (
     id: number,
@@ -41,7 +41,7 @@
     email: string,
     experience: string,
     resume: string,
-    skill: JSON
+    skill: {name:string[]}
   ) => {
     const existingCandidate = await this.candidateRepository.findOneBy({ id });
     if (!existingCandidate) {
@@ -60,11 +60,11 @@
   deleteCandidate = async (id: number) => {
     const employee = await this.getCandidateById(id);
 
-//     if (!employee) {
-//       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
-//     }
-//     return this.candidateRepository.softRemove(id);
-//   };
-// }
+    if (!employee) {
+      throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
+    }
+    return this.candidateRepository.softRemove(id);
+  };
+}
 
-// export default CandidateService;
+export default CandidateService;

@@ -2,7 +2,8 @@ import { NextFunction } from "express";
 import { Response } from "express";
 import { jwtPayload, RequestWithUser } from "../utils/jwtPayload.types";
 import jsonwebtoken from "jsonwebtoken";
-import { JWT_SECRET } from "../utils/constant";
+import dotenv from "dotenv";
+dotenv.config;
 
 const authorize = async (
   request: RequestWithUser,
@@ -11,7 +12,7 @@ const authorize = async (
 ) => {
   try {
     const token = getTokenFromRequestHeader(request);
-    const payload = jsonwebtoken.verify(token, JWT_SECRET);
+    const payload = jsonwebtoken.verify(token, process.env.JWT_SECRET);
     request.name = (payload as jwtPayload).name;
     request.email = (payload as jwtPayload).email;
     request.position = (payload as jwtPayload).position;
