@@ -2,8 +2,7 @@ import { NextFunction } from "express";
 import { Response } from "express";
 import { jwtPayload, RequestWithUser } from "../utils/jwtPayload.types";
 import jsonwebtoken from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
+import { JWT_SECRET } from "../utils/constant";
 
 const authorize = async (
   request: RequestWithUser,

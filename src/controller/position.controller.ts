@@ -14,6 +14,11 @@ class PositionController {
     this.router.post("/", this.createPosition);
     this.router.put("/:id", this.updatePosition);
     this.router.delete("/:id", this.deletePosition);
+    this.router.get("/",  this.getAllPosition);
+    this.router.get("/:id",  this.getPosition);
+    this.router.post("/",  this.createPosition);
+    this.router.put("/:id",  this.updatePosition);
+    this.router.delete("/:id",  this.deletePosition);
   }
 
   public getAllPosition = async (
