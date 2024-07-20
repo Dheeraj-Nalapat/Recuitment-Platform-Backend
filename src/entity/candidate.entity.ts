@@ -7,7 +7,7 @@ class Candidate extends AbstractEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()

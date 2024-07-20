@@ -57,8 +57,6 @@ class PositionController {
     next: NextFunction
   ) => {
     try {
-      console.log(req.body);
-
       const positionDto = plainToInstance(PositionDto, req.body);
       const errors = await validate(positionDto);
       if (errors.length) {
@@ -70,7 +68,6 @@ class PositionController {
       const newPosition = await this.positionService.createPosition(
         positionDto.name
       );
-      console.log(newPosition);
       res.status(200).send(newPosition);
     } catch (error) {
       next(error);
@@ -87,7 +84,6 @@ class PositionController {
       const errors = await validate(positionDto);
       if (errors.length) {
         console.log(JSON.stringify(errors));
-
         throw new HttpException(400, JSON.stringify(errors));
       }
       const updatedPositionData = req.body;

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, Unique } from "typeorm";
 import AbstractEntity from "./abstract.entity";
 import Referal from "./referal.entity";
 import Position from "./position.entity";
@@ -8,7 +8,7 @@ class Employee extends AbstractEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()

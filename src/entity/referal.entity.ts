@@ -7,15 +7,6 @@ import Employee from "./employee.entity";
 @Entity()
 class Referal extends AbstractEntity {
   @Column()
-  employeeId: number;
-
-  @Column()
-  candidateId: number;
-
-  @Column()
-  jobId: number;
-
-  @Column()
   state: string;
 
   @Column()
