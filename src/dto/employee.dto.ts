@@ -4,12 +4,11 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  
 } from "class-validator";
 
 import "reflect-metadata";
 
-export default class EmployeeDto {
+export default class createEmployeeDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -27,36 +26,29 @@ export default class EmployeeDto {
   @IsString()
   password: string;
 
- 
   @IsNotEmpty()
   @IsString()
   position: string;
-
- 
 }
 
 export class UpdateEmployeeDto {
-    @IsOptional()
-    @IsString()
-    name: string;
-  
-    @IsOptional()
-    @IsNotEmpty()
-    @IsString()
-    email: string;
-  
-    @IsOptional()
-    @IsNumber()
-    experience: number;
-  
-    @IsOptional()
-    @IsString()
-    password: string;
-  
-   
-    @IsOptional()
-    @IsString()
-    position: string;
-   
-  
+  @IsOptional()
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  email: string;
+
+  @IsOptional()
+  @IsNumber()
+  experience: number;
+
+  @IsOptional()
+  @IsString()
+  password: string;
+
+  @IsOptional()
+  @IsString()
+  position: string;
 }
