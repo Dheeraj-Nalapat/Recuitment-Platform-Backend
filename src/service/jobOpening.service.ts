@@ -1,5 +1,4 @@
 import JobOpening from "../entity/jobOpening.entity";
-import Position from "../entity/position.entity";
 import JobOpeningRepository from "../repository/jobOpening.repository";
 import { ErrorCodes } from "../utils/error.code";
 import PositionService from "./position.service";
@@ -92,5 +91,4 @@ class JobOpeningService {
     return this.jobOpeningRepository.softRemove(id);
   };
 }
-
 export default JobOpeningService;
