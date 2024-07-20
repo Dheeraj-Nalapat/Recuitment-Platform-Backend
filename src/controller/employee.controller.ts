@@ -6,6 +6,8 @@ import { validate } from "class-validator";
 import CreateEmployeeDto from "../dto/employee.dto";
 import HttpException from "../exceptions/http.exceptions";
 import errorsToJson from "../utils/errorstojason";
+import authorize from "../middleware/authorization.middleware";
+import { RequestWithUser } from "../utils/jwtPayload.types";
 
 class EmployeeController {
   public router: express.Router;
@@ -13,9 +15,8 @@ class EmployeeController {
   constructor(private employeeService: EmployeeService) {
     this.router = express.Router();
     this.router.get("/", this.getAllEmployees);  
-    this.router.post("/",this.createEmployee);
+    this.router.post("/", authorize, this.createEmployee);
     this.router.post("/login", this.loginEmployee);
-
   }
 
 
@@ -26,6 +27,7 @@ class EmployeeController {
   ) => {
     try {
       const { email, password } = req.body;
+      console.log(email, password)
       const token = await this.employeeService.loginEmployee(email, password);
       console.log(token);
       res.status(200).send({ data: token });
@@ -64,15 +66,16 @@ class EmployeeController {
   };
 
   public createEmployee = async (
-    req: express.Request,
+    req: RequestWithUser,
     res: express.Response,
     next: express.NextFunction
   ) => {
     try {
-      //   const role = req.role;
-      //   if (role != Role.HR) {
-      //     throw ErrorCodes.UNAUTHORIZED;
-      //   }
+        const position = req.position;
+        console.log(position)
+        if (position !== "HR") {
+          throw ErrorCodes.UNAUTHORIZED;
+        }
       const employeeDto = plainToInstance(CreateEmployeeDto, req.body);
       const errors = await validate(employeeDto);
       if (errors.length) {
