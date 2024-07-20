@@ -28,8 +28,8 @@ import {
     location: string;
 
     @IsNotEmpty()
-    @IsNumber()
-    experience: number;
+    @IsString()
+    experience: string;
 
     @IsNotEmpty()
     @IsNumber()
