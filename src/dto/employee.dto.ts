@@ -1,6 +1,5 @@
 import {
   IsEmail,
- 
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -8,7 +7,6 @@ import {
   
 } from "class-validator";
 
-import { Type } from "class-transformer";
 import "reflect-metadata";
 
 export class EmployeeDto {
@@ -22,8 +20,8 @@ export class EmployeeDto {
   email: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  experience: number;
+  @IsString()
+  experience: string;
 
   @IsNotEmpty()
   @IsString()
@@ -33,7 +31,6 @@ export class EmployeeDto {
   @IsNotEmpty()
   @IsString()
   position: string;
- 
 
  
 }

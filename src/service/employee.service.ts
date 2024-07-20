@@ -30,7 +30,7 @@ class EmployeeService {
   createEmployee = async (
     name: string,
     email: string,
-    experience: number,
+    experience: string,
     password: string,
     position: string
   ) => {
@@ -55,7 +55,7 @@ class EmployeeService {
     id: number,
     name: string,
     email: string,
-    experience: number,
+    experience: string,
     password: string,
     position: string
   ) => {

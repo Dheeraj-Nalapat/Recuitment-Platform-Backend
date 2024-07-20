@@ -12,7 +12,7 @@ import {
   import "reflect-metadata";
 
   
-  export class CreateJobOpeningDto{
+  export default class JobOpeningDto{
     @IsNotEmpty()
     @IsString()
     position: string;
@@ -28,8 +28,8 @@ import {
     location: string;
 
     @IsNotEmpty()
-    @IsNumber()
-    experience: number;
+    @IsString()
+    experience: string;
 
     @IsNotEmpty()
     @IsNumber()

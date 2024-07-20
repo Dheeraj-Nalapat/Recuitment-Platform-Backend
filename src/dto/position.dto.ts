@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString,ValidateNested } from "class-validator";
 
 
-export class CreatePositionDto {
+export default class PositionDto {
   @IsNotEmpty()
   @IsString()
   name: string;

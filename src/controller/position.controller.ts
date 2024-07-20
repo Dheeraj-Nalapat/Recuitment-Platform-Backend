@@ -2,9 +2,9 @@ import { NextFunction, Request, Response, Router } from "express";
 import PositionService from "../service/position.service";
 import HttpException from "../exceptions/http.exceptions";
 import { plainToInstance } from "class-transformer";
-import { CreatePositionDto, UpdatePositionDto } from "../dto/position.dto";
+import PositionDto from "../dto/position.dto";
 import { validate } from "class-validator";
-import { authorize } from "../middleware/authorization.middleware";
+import authorize from "../middleware/authorization.middleware";
 class PositionController {
   public router: Router;
   constructor(private positionService: PositionService) {
@@ -59,7 +59,7 @@ class PositionController {
     try {
       console.log(req.body);
       
-      const positionDto = plainToInstance(CreatePositionDto, req.body);
+      const positionDto = plainToInstance(PositionDto, req.body);
       const errors = await validate(positionDto);
       if (errors.length) {
         console.log(JSON.stringify(errors));
@@ -83,7 +83,7 @@ class PositionController {
     next: NextFunction
   ) => {
     try {
-      const positionDto = plainToInstance(UpdatePositionDto, req.body);
+      const positionDto = plainToInstance(PositionDto, req.body);
       const errors = await validate(positionDto);
       if (errors.length) {
         console.log(JSON.stringify(errors));
