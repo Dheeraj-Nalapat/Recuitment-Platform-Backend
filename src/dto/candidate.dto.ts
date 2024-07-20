@@ -12,8 +12,8 @@ export default class CandidateDto {
   email: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  experience: number;
+  @IsString()
+  experience: string;
 
   @IsNotEmpty()
   @IsString()

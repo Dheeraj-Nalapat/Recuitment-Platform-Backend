@@ -12,7 +12,7 @@ class Candidate extends AbstractEntity {
   email: string;
 
   @Column()
-  experience: number;
+  experience: string;
 
   @Column()
   resume: string;
