@@ -3,10 +3,7 @@ import CandidateRepository from "../repository/candidate.repository";
 import { ErrorCodes } from "../utils/error.code";
 
 class CandidateService {
-  constructor(
-    private candidateRepository: CandidateRepository,
-    private candidateService: CandidateService
-  ) {}
+  constructor(private candidateRepository: CandidateRepository) {}
 
   getAllCandidate = async () => {
     return this.candidateRepository.find();
