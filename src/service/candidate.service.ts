@@ -15,50 +15,50 @@
 //     return this.candidateRepository.findOneBy({ id });
 //   };
 
-//   getCandidateByName = async (name: string) => {
-//     return this.candidateRepository.findOneBy({ name });
-//   };
-//   createCandidate = async (
-//     name: string,
-//     email: string,
-//     experience: string,
-//     resume: string,
-//     // skill: JSON
-//   ) => {
-//     const newCandidate = new Candidate();
-//     newCandidate.name = name;
-//     newCandidate.email = email;
-//     newCandidate.experience = experience;
-//     newCandidate.resume = resume;
-//     // newCandidate.skill = skill;
+  getCandidateByName = async (name: string) => {
+    return this.candidateRepository.findOneBy({ name });
+  };
+  createCandidate = async (
+    name: string,
+    email: string,
+    experience: string,
+    resume: string,
+    skill: { name: string[] }
+  ) => {
+    const newCandidate = new Candidate();
+    newCandidate.name = name;
+    newCandidate.email = email;
+    newCandidate.experience = experience;
+    newCandidate.resume = resume;
+    newCandidate.skill = skill;
 
 //     return this.candidateRepository.save(newCandidate);
 //   };
 
-//   updateCandidateById = async (
-//     id: number,
-//     // name: string,
-//     email: string,
-//     experience: string,
-//     resume: string,
-//     skill: JSON
-//   ) => {
-//     const existingCandidate = await this.candidateRepository.findOneBy({ id });
-//     if (!existingCandidate) {
-//       throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
-//     }
-//     existingCandidate.name = name;
-//     existingCandidate.email = email;
-//     existingCandidate.experience = experience;
-//     existingCandidate.resume = resume;
-//     existingCandidate.skill = skill;
+  updateCandidateById = async (
+    id: number,
+    name: string,
+    email: string,
+    experience: string,
+    resume: string,
+    skill: JSON
+  ) => {
+    const existingCandidate = await this.candidateRepository.findOneBy({ id });
+    if (!existingCandidate) {
+      throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
+    }
+    existingCandidate.name = name;
+    existingCandidate.email = email;
+    existingCandidate.experience = experience;
+    existingCandidate.resume = resume;
+    existingCandidate.skill = skill;
 
-//     return this.candidateRepository.save(existingCandidate);
-//   };
+    return this.candidateRepository.save(existingCandidate);
+  };
 
   
-//   deleteCandidate = async (id: number) => {
-//     const employee = await this.getCandidateById(id);
+  deleteCandidate = async (id: number) => {
+    const employee = await this.getCandidateById(id);
 
 //     if (!employee) {
 //       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
