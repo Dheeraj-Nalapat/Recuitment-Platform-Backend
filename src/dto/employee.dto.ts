@@ -10,7 +10,7 @@ import {
 import { Type } from "class-transformer";
 import "reflect-metadata";
 
-export class CreateEmployeeDto {
+export class EmployeeDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -37,28 +37,4 @@ export class CreateEmployeeDto {
  
 }
 
-export class UpdateEmployeeDto {
-    @IsNotEmpty()
-    @IsString()
-    name: string;
-  
-    @IsEmail()
-    @IsNotEmpty()
-    @IsString()
-    email: string;
-  
-    @IsNotEmpty()
-    @IsNumber()
-    experience: number;
-  
-    @IsNotEmpty()
-    @IsString()
-    password: string;
-  
-   
-    @IsNotEmpty()
-    @IsString()
-    position: string;
-   
-  
-}
+

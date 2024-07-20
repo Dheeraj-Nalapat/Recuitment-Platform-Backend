@@ -48,34 +48,34 @@ import {
   }
   
   export class UpdateJobOPeningDto{
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     position: string;
   
    
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     description: string;
 
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     location: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     experience: number;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     noOfOpening: number;
   
     
-    @IsNotEmpty()
+    @IsOptional()
   @IsBoolean()
   active: boolean;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   skills?: string;
   

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString,ValidateNested } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString,ValidateNested } from "class-validator";
 
 
 export class CreatePositionDto {
@@ -12,7 +12,7 @@ export class CreatePositionDto {
 
 export class UpdatePositionDto {
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     name: string;
 
