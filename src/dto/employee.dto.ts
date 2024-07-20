@@ -8,7 +8,7 @@ import {
 
 import "reflect-metadata";
 
-export class CreateEmployeeDto {
+export class EmployeeDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -19,8 +19,8 @@ export class CreateEmployeeDto {
   email: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  experience: number;
+  @IsString()
+  experience: string;
 
   @IsNotEmpty()
   @IsString()
@@ -30,33 +30,6 @@ export class CreateEmployeeDto {
   @IsNotEmpty()
   @IsString()
   position: string;
- 
 
  
-}
-
-export class UpdateEmployeeDto {
-    @IsNotEmpty()
-    @IsString()
-    name: string;
-  
-    @IsEmail()
-    @IsNotEmpty()
-    @IsString()
-    email: string;
-  
-    @IsNotEmpty()
-    @IsNumber()
-    experience: number;
-  
-    @IsNotEmpty()
-    @IsString()
-    password: string;
-  
-   
-    @IsNotEmpty()
-    @IsString()
-    position: string;
-   
-  
 }
