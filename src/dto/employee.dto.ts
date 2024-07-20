@@ -9,7 +9,7 @@ import {
 
 import "reflect-metadata";
 
-export class EmployeeDto {
+export default class EmployeeDto {
   @IsNotEmpty()
   @IsString()
   name: string;

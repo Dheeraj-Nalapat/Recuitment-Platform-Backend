@@ -2,7 +2,7 @@ import { NextFunction } from "express";
 import { Response } from "express";
 import { jwtPayload, RequestWithUser } from "../utils/jwtPayload.types";
 import jsonwebtoken from "jsonwebtoken";
-import { JWT_SECRET } from "../utils/constants";
+import { JWT_SECRET } from "../utils/constant";
 
 const authorize = async (
   request: RequestWithUser,

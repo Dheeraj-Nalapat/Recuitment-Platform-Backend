@@ -3,6 +3,7 @@ import {
   IsDate,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from "class-validator";
 
@@ -29,5 +30,31 @@ export default class ReferalDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  bunusGiven: boolean;
+  bonusGiven: boolean;
+}
+
+export  class UpdateReferalDto {
+  @IsOptional()
+  @IsNumber()
+  employeeId: number;
+
+  @IsOptional()
+  @IsNumber()
+  candidateId: number;
+
+  @IsOptional()
+  @IsNumber()
+  jobId: number;
+
+  @IsOptional()
+  @IsString()
+  state: string;
+
+  @IsOptional()
+  @IsDate()
+  acceptDDate: Date;
+
+  @IsOptional()
+  @IsBoolean()
+  bonusGiven: boolean;
 }
