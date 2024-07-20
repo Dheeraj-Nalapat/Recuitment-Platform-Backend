@@ -11,7 +11,7 @@ class EmployeeRepository {
   findOneBy = async (filter: Partial<Employee>) => {
     return this.repository.findOne({
       where: filter,
-      relations: ["address", "department"],
+      relations: ["position", "referal"],
     });
   };
 

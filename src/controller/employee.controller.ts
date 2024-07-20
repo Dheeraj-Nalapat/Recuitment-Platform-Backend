@@ -12,7 +12,27 @@ class EmployeeController {
 
   constructor(private employeeService: EmployeeService) {
     this.router = express.Router();
+    this.router.get("/", this.getAllEmployees);  
+    this.router.post("/",this.createEmployee);
+    this.router.post("/login", this.loginEmployee);
+
   }
+
+
+  public loginEmployee = async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    try {
+      const { email, password } = req.body;
+      const token = await this.employeeService.loginEmployee(email, password);
+      console.log(token);
+      res.status(200).send({ data: token });
+    } catch (err) {
+      next(err);
+    }
+  };
 
   public getAllEmployees = async (
     req: express.Request,
@@ -44,7 +64,7 @@ class EmployeeController {
   };
 
   public createEmployee = async (
-    req: Request,
+    req: express.Request,
     res: express.Response,
     next: express.NextFunction
   ) => {
@@ -72,6 +92,8 @@ class EmployeeController {
       next(err);
     }
   };
+
+
 }
 
 export default EmployeeController;
