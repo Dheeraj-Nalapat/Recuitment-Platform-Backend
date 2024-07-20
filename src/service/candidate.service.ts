@@ -23,7 +23,7 @@ class CandidateService {
     email: string,
     experience: string,
     resume: string,
-    skill: JSON
+    skill: { name: string[] }
   ) => {
     const newCandidate = new Candidate();
     newCandidate.name = name;
@@ -41,7 +41,7 @@ class CandidateService {
     email: string,
     experience: string,
     resume: string,
-    skill: JSON
+    skill: { name: string[] }
   ) => {
     const existingCandidate = await this.candidateRepository.findOneBy({ id });
     if (!existingCandidate) {
@@ -56,7 +56,6 @@ class CandidateService {
     return this.candidateRepository.save(existingCandidate);
   };
 
-  
   deleteCandidate = async (id: number) => {
     const employee = await this.getCandidateById(id);
 

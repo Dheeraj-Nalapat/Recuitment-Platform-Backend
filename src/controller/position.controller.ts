@@ -9,11 +9,11 @@ class PositionController {
   public router: Router;
   constructor(private positionService: PositionService) {
     this.router = Router();
-    this.router.get("/", authorize, this.getAllPosition);
-    this.router.get("/:id", authorize, this.getPosition);
-    this.router.post("/", authorize, this.createPosition);
-    this.router.put("/:id", authorize, this.updatePosition);
-    this.router.delete("/:id", authorize, this.deletePosition);
+    this.router.get("/", this.getAllPosition);
+    this.router.get("/:id", this.getPosition);
+    this.router.post("/", this.createPosition);
+    this.router.put("/:id", this.updatePosition);
+    this.router.delete("/:id", this.deletePosition);
   }
 
   public getAllPosition = async (
@@ -58,7 +58,7 @@ class PositionController {
   ) => {
     try {
       console.log(req.body);
-      
+
       const positionDto = plainToInstance(PositionDto, req.body);
       const errors = await validate(positionDto);
       if (errors.length) {
@@ -66,7 +66,7 @@ class PositionController {
 
         throw new HttpException(400, JSON.stringify(errors));
       }
-      
+
       const newPosition = await this.positionService.createPosition(
         positionDto.name
       );
