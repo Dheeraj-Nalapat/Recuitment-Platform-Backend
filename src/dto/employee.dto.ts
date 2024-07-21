@@ -41,7 +41,7 @@ export class UpdateEmployeeDto {
   email: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   experience: string;
 
   @IsOptional()

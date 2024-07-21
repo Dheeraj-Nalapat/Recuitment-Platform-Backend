@@ -15,7 +15,11 @@ class EmployeeController {
   constructor(private employeeService: EmployeeService) {
     this.router = express.Router();
     this.router.get("/", this.getAllEmployees);
-    this.router.post("/", authorize, this.createEmployee);
+    this.router.get("/:id", this.getEmployeeById);
+    this.router.post("/", this.createEmployee);
+    this.router.put("/:id", this.updateEmployee);
+    this.router.patch("/:id", this.updateEmployee);
+    this.router.delete("/:id", this.deleteEmployee);
     this.router.post("/login", this.loginEmployee);
   }
 
@@ -70,11 +74,11 @@ class EmployeeController {
     next: express.NextFunction
   ) => {
     try {
-      const position = req.position;
-      console.log(position);
-      if (position !== "HR") {
-        throw ErrorCodes.UNAUTHORIZED;
-      }
+      // const position = req.position;
+      // console.log(position);
+      // if (position !== "HR") {
+      //   throw ErrorCodes.UNAUTHORIZED;
+      // }
       const employeeDto = plainToInstance(CreateEmployeeDto, req.body);
       const errors = await validate(employeeDto);
       if (errors.length) {
