@@ -28,6 +28,10 @@ export const ErrorCodes: { [key: string]: CustomError } = {
     CODE: "JOBOPENING_WITH_ID_NOT_FOUND",
     MESSAGE: "Job Opening with the given ID not found",
   },
+  CANDIDATE_NOT_FOUND: {
+    CODE: "CANDIDATE_NOT_FOUND",
+    MESSAGE: "Candidate not found, please enter candidate details",
+  },
 };
 
 export interface CustomError {

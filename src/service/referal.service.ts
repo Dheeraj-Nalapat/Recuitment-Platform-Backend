@@ -1,17 +1,12 @@
-import ReferalRepository from "../repository/referal.repository";
+import Referal from "../entity/referal.entity";
+import CandidateRepository from "../repository/candidate.repository";
 import EmployeeRepository from "../repository/employee.repository";
 import JobOpeningRepository from "../repository/jobOpening.repository";
-import CandidateRepository from "../repository/candidate.repository";
-import Referal from "../entity/referal.entity";
+import ReferalRepository from "../repository/referal.repository";
 import { ErrorCodes } from "../utils/error.code";
 
 class ReferalService {
-  constructor(
-    private referalRepository: ReferalRepository,
-    private employeeRepository: EmployeeRepository,
-    private jobOpeningRepository: JobOpeningRepository,
-    private candidateRepository: CandidateRepository
-  ) {}
+  constructor(private referalRepository: ReferalRepository) {}
 
   getAllReferals = async () => {
     return this.referalRepository.find();
@@ -49,42 +44,9 @@ class ReferalService {
     return this.referalRepository.find({ where: { jobOpening } });
   };
 
-  createReferal = async (state: string, bonusGiven: boolean, employeeId: number, jobOpeningId: number, candidateId: number) => {
-    const employee = await this.employeeRepository.findOneBy({ id: employeeId });
-    if (!employee) {
-      throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
-    }
+  createReferal = async () => {};
 
-    const jobOpening = await this.jobOpeningRepository.findOneBy({ id: jobOpeningId });
-    if (!jobOpening) {
-      throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
-    }
-
-    const candidate = await this.candidateRepository.findOneBy({ id: candidateId });
-    if (!candidate) {
-      throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
-    }
-
-    const newReferal = new Referal();
-    newReferal.state = state;
-    newReferal.bonusGiven = bonusGiven;
-    newReferal.employee = employee;
-    newReferal.jobOpening = jobOpening;
-    newReferal.candidate = candidate;
-
-    return this.referalRepository.save(newReferal);
-  };
-
-  updateReferal = async (id: number, state: string, bonusGiven: boolean) => {
-    const existingReferal = await this.getReferalById(id);
-    if (!existingReferal) {
-      throw ErrorCodes.REFERAL_WITH_ID_NOT_FOUND;
-    }
-    existingReferal.state = state;
-    existingReferal.bonusGiven = bonusGiven;
-
-    return this.referalRepository.save(existingReferal);
-  };
+  updateReferal = async () => {};
 
   deleteReferal = async (id: number) => {
     const referal = await this.getReferalById(id);

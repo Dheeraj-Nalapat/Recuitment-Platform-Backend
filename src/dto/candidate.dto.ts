@@ -1,11 +1,17 @@
-import { IsEmail, IsJSON, IsNotEmpty, IsNumber, IsOptional, IsString,ValidateNested } from "class-validator";
+import {
+  IsEmail,
+  IsJSON,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
 
-
-export default class CandidateDto {
-
+export class CreateCandidateDto {
   @IsNotEmpty()
   @IsString()
-  name: string;  
+  name: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -21,14 +27,12 @@ export default class CandidateDto {
 
   @IsNotEmpty()
   @IsJSON()
-  skill:JSON;
-
+  skill: JSON;
 }
-export  class UpdateCandidateDto
-{
+export class UpdateCandidateDto {
   @IsOptional()
   @IsString()
-  name: string;  
+  name: string;
 
   @IsOptional()
   @IsEmail()
@@ -44,7 +48,5 @@ export  class UpdateCandidateDto
 
   @IsOptional()
   @IsJSON()
-  skill:JSON;
-
-
+  skill: JSON;
 }

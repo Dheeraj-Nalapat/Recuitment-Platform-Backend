@@ -3,6 +3,12 @@ import EmployeeRepository from "../repository/employee.repository";
 import bcrypt from "bcrypt";
 import PositionService from "./position.service";
 import { ErrorCodes } from "../utils/error.code";
+import { jwtPayload } from "../utils/jwtPayload.types";
+import dotenv from "dotenv";
+import jsonwebtoken from "jsonwebtoken";
+
+
+dotenv.config();
 
 class EmployeeService {
   constructor(
@@ -92,6 +98,30 @@ class EmployeeService {
     }
     return this.employeeRepository.softRemove(id);
   };
+
+  loginEmployee = async (email: string, password: string) => {
+    let employee = await this.employeeRepository.findOneBy({ email });
+    if (!employee) {
+      throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
+    }
+
+    const result = await bcrypt.compare(password, employee.password);
+    if (!result) {
+      throw ErrorCodes.INCORRECT_PASSWORD;
+    }
+    const payload: jwtPayload = {
+      name: employee.name,
+      email: employee.email,
+      position: employee.position.name
+    };
+
+    const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_VALIDITY,
+    });
+    return { token };
+  };
+
+
 }
 
 export default EmployeeService;

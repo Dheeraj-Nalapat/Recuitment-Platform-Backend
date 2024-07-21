@@ -2,7 +2,9 @@ import { NextFunction } from "express";
 import { Response } from "express";
 import { jwtPayload, RequestWithUser } from "../utils/jwtPayload.types";
 import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv"
 
+dotenv.config();
 
 const authorize = async (
   request: RequestWithUser,
