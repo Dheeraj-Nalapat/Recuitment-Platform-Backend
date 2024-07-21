@@ -4,8 +4,10 @@ import Referal from "../entity/referal.entity";
 class ReferalRepository {
   constructor(private repository: Repository<Referal>) {}
 
-  find = async () => {
+
+  find = async (filter: any) => {
     return this.repository.find({
+      where: filter,
       relations: ["employee", "jobOpening", "candidate"],
     });
   };

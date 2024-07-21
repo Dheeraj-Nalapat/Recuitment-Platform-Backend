@@ -13,41 +13,107 @@ class ReferalService {
     private jobOpeningRepository: JobOpeningRepository
   ) {}
 
-  getAllReferal = async () => {
-    return this.referalRepository.find();
+  getAllReferals = async () => {
+    return this.referalRepository.find({
+      where: {},
+      relations: ["employee", "jobOpening", "candidate"],
+    });
   };
 
-  getAllReferalById = async (id: number) => {
-    return this.referalRepository.findOneBy({ id });
+  getReferalById = async (id: number) => {
+    const referal = await this.referalRepository.findOneBy({ id });
+    if (!referal) {
+      throw ErrorCodes.REFERAL_WITH_ID_NOT_FOUND;
+    }
+    return referal;
   };
 
-  getAllReferalByEmployee = async (id: number) => {};
+  getAllReferalsByEmployee = async (employeeId: number) => {
+    const employee = await this.employeeRepository.findOneBy({
+      id: employeeId,
+    });
+    if (!employee) {
+      throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
+    }
+    return this.referalRepository.find({ where: { employee } });
+  };
 
-  getAllReferalByCandidate = async () => {};
-
-  getAllReferalByJobOpening = async () => {};
-
-  createReferal = async (
-    employeeId: number,
-    candidateId: number,
-    jobOpeningId: number
-  ) => {
+  getAllReferalsByCandidate = async (candidateId: number) => {
     const candidate = await this.candidateRepository.findOneBy({
       id: candidateId,
     });
     if (!candidate) {
-      throw ErrorCodes.CANDIDATE_NOT_FOUND;
+      throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
     }
-    const employee = await this.employeeRepository.findOneBy({id: employeeId})
-    const jobOpening = await this.jobOpeningRepository.findOneBy({id: jobOpeningId});
-    const newReferal = new Referal()
-    newReferal.jobOpening = jobOpening;
+    return this.referalRepository.find({ where: { candidate } });
+  };
+
+  getAllReferalsByJobOpening = async (jobOpeningId: number) => {
+    const jobOpening = await this.jobOpeningRepository.findOneBy({
+      id: jobOpeningId,
+    });
+    if (!jobOpening) {
+      throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
+    }
+    return this.referalRepository.find({ where: { jobOpening } });
+  };
+
+  createReferal = async (
+    state: string,
+    bonusGiven: boolean,
+    employeeId: number,
+    jobOpeningId: number,
+    candidateId: number
+  ) => {
+    const employee = await this.employeeRepository.findOneBy({
+      id: employeeId,
+    });
+    if (!employee) {
+      throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
+    }
+
+    const jobOpening = await this.jobOpeningRepository.findOneBy({
+      id: jobOpeningId,
+    });
+    if (!jobOpening) {
+      throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
+    }
+
+    const candidate = await this.candidateRepository.findOneBy({
+      id: candidateId,
+    });
+    if (!candidate) {
+      throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
+    }
+
+    const newReferal = new Referal();
+    newReferal.state = state;
+    newReferal.bonusGiven = bonusGiven;
     newReferal.employee = employee;
+    newReferal.jobOpening = jobOpening;
     newReferal.candidate = candidate;
+
     return this.referalRepository.save(newReferal);
   };
 
-  updateReferal = async () => {};
+  updateReferal = async (id: number, state: string, bonusGiven: boolean) => {
+    const existingReferal = await this.getReferalById(id);
+    if (!existingReferal) {
+      throw ErrorCodes.REFERAL_WITH_ID_NOT_FOUND;
+    }
+    existingReferal.state = state;
+    existingReferal.bonusGiven = bonusGiven;
 
-  deleteReferal = async () => {};
+    return this.referalRepository.save(existingReferal);
+  };
+
+  deleteReferal = async (id: number) => {
+    const referal = await this.getReferalById(id);
+    if (!referal) {
+      throw ErrorCodes.REFERAL_WITH_ID_NOT_FOUND;
+    }
+    return this.referalRepository.softRemove(id);
+  };
 }
+
+export default ReferalService;
