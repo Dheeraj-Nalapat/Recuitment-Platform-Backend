@@ -4,17 +4,14 @@ import Referal from "../entity/referal.entity";
 class ReferalRepository {
   constructor(private repository: Repository<Referal>) {}
 
-
   find = async (filter: any) => {
     return this.repository.find({
-      where: filter,
       relations: ["employee", "jobOpening", "candidate"],
     });
   };
 
   findOneBy = async (filter: Partial<Referal>) => {
     return this.repository.findOne({
-      where: filter,
       relations: ["employee", "jobOpening", "candidate"],
     });
   };

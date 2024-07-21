@@ -3,13 +3,17 @@ import JobOpeningService from "../service/jobOpening.service";
 import { ErrorCodes } from "../utils/error.code";
 import { plainToInstance } from "class-transformer";
 import { CreateJobOpeningDto } from "../dto/jobOpening.dto";
+import { validate } from "class-validator";
+import errorsToJson from "../utils/errorstojason";
+import HttpException from "../exceptions/http.exceptions";
 
 class JobOpeningController {
   public router: Router;
   constructor(private jobOpeningService: JobOpeningService) {
     this.router = Router();
     this.router.get("/", this.getAllJobOpening);
-    this.router.get("/:jobId", this.getJobOpeningById);
+    this.router.get("/:id", this.getJobOpeningById);
+    this.router.post("/", this.createJobOpening);
   }
 
   public getAllJobOpening = async (
@@ -47,11 +51,33 @@ class JobOpeningController {
   ) => {
     try {
       const jobOpeningDto = plainToInstance(CreateJobOpeningDto, req.body);
+      const errors = await validate(jobOpeningDto);
+      if (errors.length) {
+        console.log(errorsToJson(errors));
+        throw new HttpException(400, JSON.stringify(errors));
+      }
+
+      const newJobOpening =
+        await this.jobOpeningService.createJobOpeningByPosition(
+          jobOpeningDto.position,
+          jobOpeningDto.description,
+          jobOpeningDto.location,
+          jobOpeningDto.skills,
+          jobOpeningDto.experience,
+          jobOpeningDto.noOfOpening,
+          jobOpeningDto.active
+        );
     } catch (err) {
       console.log(err);
       next(err);
     }
   };
+
+  public updateJobOpening = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {};
 }
 
 export default JobOpeningController;
