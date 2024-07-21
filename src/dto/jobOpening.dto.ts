@@ -38,7 +38,7 @@ export class CreateJobOpeningDto {
 
   @IsNotEmpty()
   @IsString()
-  skills?: string;
+  skills: { name: string[] };
 }
 
 export class UpdateJobOPeningDto {
