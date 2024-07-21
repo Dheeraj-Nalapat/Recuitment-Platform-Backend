@@ -15,6 +15,10 @@ class CandidateService {
   getCandidateByName = async (name: string) => {
     return this.candidateRepository.findOneBy({ name });
   };
+
+  getCandidateByEmail = async (email: string) => {
+    return this.candidateRepository.findOneBy({ email });
+  };
   createCandidate = async (
     name: string,
     email: string,
@@ -38,7 +42,7 @@ class CandidateService {
     email: string,
     experience: string,
     resume: string,
-    skill: {name:string[]}
+    skill: { name: string[] }
   ) => {
     const existingCandidate = await this.candidateRepository.findOneBy({ id });
     if (!existingCandidate) {
@@ -53,7 +57,6 @@ class CandidateService {
     return this.candidateRepository.save(existingCandidate);
   };
 
-  
   deleteCandidate = async (id: number) => {
     const employee = await this.getCandidateById(id);
 

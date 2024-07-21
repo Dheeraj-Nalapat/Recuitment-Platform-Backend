@@ -4,13 +4,16 @@ import EmployeeRepository from "../repository/employee.repository";
 import JobOpeningRepository from "../repository/jobOpening.repository";
 import ReferalRepository from "../repository/referal.repository";
 import { ErrorCodes } from "../utils/error.code";
+import CandidateService from "./candidate.service";
+import EmployeeService from "./employee.service";
+import JobOpeningService from "./jobOpening.service";
 
 class ReferalService {
   constructor(
     private referalRepository: ReferalRepository,
-    private candidateRepository: CandidateRepository,
-    private employeeRepository: EmployeeRepository,
-    private jobOpeningRepository: JobOpeningRepository
+    private employeeService: EmployeeService,
+    private candidateService: CandidateService,
+    private jobOpeningService: JobOpeningService
   ) {}
 
   getAllReferals = async () => {
@@ -29,9 +32,7 @@ class ReferalService {
   };
 
   getAllReferalsByEmployee = async (employeeId: number) => {
-    const employee = await this.employeeRepository.findOneBy({
-      id: employeeId,
-    });
+    const employee = await this.employeeService.getEmployeeById(employeeId);
     if (!employee) {
       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
     }
@@ -39,9 +40,7 @@ class ReferalService {
   };
 
   getAllReferalsByCandidate = async (candidateId: number) => {
-    const candidate = await this.candidateRepository.findOneBy({
-      id: candidateId,
-    });
+    const candidate = await this.candidateService.getCandidateById(candidateId);
     if (!candidate) {
       throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
     }
@@ -49,9 +48,9 @@ class ReferalService {
   };
 
   getAllReferalsByJobOpening = async (jobOpeningId: number) => {
-    const jobOpening = await this.jobOpeningRepository.findOneBy({
-      id: jobOpeningId,
-    });
+    const jobOpening = await this.jobOpeningService.getJobOpeningById(
+      jobOpeningId
+    );
     if (!jobOpening) {
       throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
     }
@@ -65,23 +64,19 @@ class ReferalService {
     jobOpeningId: number,
     candidateId: number
   ) => {
-    const employee = await this.employeeRepository.findOneBy({
-      id: employeeId,
-    });
+    const employee = await this.employeeService.getEmployeeById(employeeId);
     if (!employee) {
       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
     }
 
-    const jobOpening = await this.jobOpeningRepository.findOneBy({
-      id: jobOpeningId,
-    });
+    const jobOpening = await this.jobOpeningService.getJobOpeningById(
+      jobOpeningId
+    );
     if (!jobOpening) {
       throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
     }
 
-    const candidate = await this.candidateRepository.findOneBy({
-      id: candidateId,
-    });
+    const candidate = await this.candidateService.getCandidateById(candidateId);
     if (!candidate) {
       throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
     }
