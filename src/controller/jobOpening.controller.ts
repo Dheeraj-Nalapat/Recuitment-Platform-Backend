@@ -14,7 +14,8 @@ class JobOpeningController {
     this.router.get("/", this.getAllJobOpening);
     this.router.get("/:id", this.getJobOpeningById);
     this.router.post("/", this.createJobOpening);
-    this.router.put("/:id",this.updateJobOpening)
+    this.router.put("/:id",this.updateJobOpening);
+    this.router.delete("/:id",this.deleteJobOpening)
   }
 
   public getAllJobOpening = async (
@@ -107,7 +108,28 @@ res.status(204).send(updatedJobOpening);
 console.log(err);
 next(err);
 }};
+
+
+public deleteJobOpening = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // const role = req.role;
+    // if (role != Role.HR) {
+    //   throw ErrorCodes.UNAUTHORIZED;
+    // }
+    const jobId = Number(req.params.id);
+    const deletedJobOPening = await this.jobOpeningService.deleteJobOpening(
+      jobId
+    );
+    res.status(204).send("Deleted");
+  } catch (err) {
     
+    next(err);
+  }
+};
     
 
 

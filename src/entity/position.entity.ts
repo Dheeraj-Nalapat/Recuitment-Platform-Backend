@@ -12,6 +12,7 @@ import AbstractEntity from "./abstract.entity";
 
 @Entity()
 class Position extends AbstractEntity {
+  
   @Column()
   name: string;
 
