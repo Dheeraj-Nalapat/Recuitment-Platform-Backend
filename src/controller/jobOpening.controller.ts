@@ -17,13 +17,8 @@ class JobOpeningController {
     this.router.get("/", this.getAllJobOpening);
     this.router.get("/:id", this.getJobOpeningById);
     this.router.post("/", this.createJobOpening);
-<<<<<<< HEAD
     this.router.put("/:id", this.updateJobOpening);
     this.router.delete("/:id", this.deleteJobOpening);
-=======
-    this.router.put("/:id",this.updateJobOpening);
-    this.router.delete("/:id",this.deleteJobOpening);
->>>>>>> 4d00985 (added delete function in  jobopening controller)
   }
 
   public getAllJobOpening = async (
