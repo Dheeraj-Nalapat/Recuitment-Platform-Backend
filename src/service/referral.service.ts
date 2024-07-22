@@ -1,15 +1,15 @@
 import Candidate from "../entity/candidate.entity";
-import referral from "../entity/referral.entity";
-import referralRepository from "../repository/referral.repository";
+import Referral from "../entity/referral.entity";
+import ReferralRepository from "../repository/referral.repository";
 import { ErrorCodes } from "../utils/error.code";
 import CandidateService from "./candidate.service";
 import EmployeeService from "./employee.service";
 import JobOpeningService from "./jobOpening.service";
 import { differenceInMonths } from "date-fns";
 
-class referralService {
+class ReferralService {
   constructor(
-    private referralRepository: referralRepository,
+    private referralRepository: ReferralRepository,
     private employeeService: EmployeeService,
     private candidateService: CandidateService,
     private jobOpeningService: JobOpeningService
@@ -24,7 +24,7 @@ class referralService {
   getReferralById = async (id: number) => {
     const referral = await this.referralRepository.findOneBy({ id });
     if (!referral) {
-      throw ErrorCodes.referral_WITH_ID_NOT_FOUND;
+      throw ErrorCodes.REFERRAL_WITH_ID_NOT_FOUND;
     }
     return referral;
   };
@@ -63,7 +63,7 @@ class referralService {
     let result = {
       candidateExists: false,
       alreadyApplied: false,
-      employeereferralValid: true,
+      employeeReferralValid: true,
       candidate: null,
     };
     const jobOpeningEntity = await this.jobOpeningService.getJobOpeningById(
@@ -96,7 +96,7 @@ class referralService {
       let referralDate = new Date(rejectedCandidateReferral[i].createdAt);
       let monthsDifferance = differenceInMonths(currentDate, referralDate);
       if (monthsDifferance < 6) {
-        result.employeereferralValid = false;
+        result.employeeReferralValid = false;
         return result;
       }
     }
@@ -110,7 +110,7 @@ class referralService {
       let referralDate = new Date(positionReferral[i].createdAt);
       let monthsDifferance = differenceInMonths(currentDate, referralDate);
       if (monthsDifferance < 6) {
-        result.employeereferralValid = false;
+        result.employeeReferralValid = false;
         return result;
       }
     }
@@ -154,7 +154,7 @@ class referralService {
     newCandidate.resume = resume;
     newCandidate.skill = skill;
 
-    const newreferral = new referral();
+    const newreferral = new Referral();
     newreferral.state = state;
     newreferral.bonusGiven = bonusGiven;
     newreferral.employee = employee;
@@ -177,10 +177,10 @@ class referralService {
   deleteReferral = async (id: number) => {
     const referral = await this.getReferralById(id);
     if (!referral) {
-      throw ErrorCodes.referral_WITH_ID_NOT_FOUND;
+      throw ErrorCodes.REFERRAL_WITH_ID_NOT_FOUND;
     }
     return this.referralRepository.softRemove(id);
   };
 }
 
-export default referralService;
+export default ReferralService;

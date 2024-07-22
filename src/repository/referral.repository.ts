@@ -1,8 +1,8 @@
 import { Repository } from "typeorm";
-import referral from "../entity/referral.entity";
+import Referral from "../entity/referral.entity";
 
 class referralRepository {
-  constructor(private repository: Repository<referral>) {}
+  constructor(private repository: Repository<Referral>) {}
 
   find = async (filter: any) => {
     return this.repository.find({
@@ -11,13 +11,13 @@ class referralRepository {
     });
   };
 
-  findOneBy = async (filter: Partial<referral>) => {
+  findOneBy = async (filter: Partial<Referral>) => {
     return this.repository.findOne({
       relations: ["employee", "jobOpening", "candidate"],
     });
   };
 
-  save = async (referral: referral): Promise<referral> => {
+  save = async (referral: Referral): Promise<Referral> => {
     return this.repository.save(referral);
   };
 
