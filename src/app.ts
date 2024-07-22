@@ -16,6 +16,7 @@ server.use(cors());
 server.use("/employee", employeeRouter);
 server.use("/position", positionRouter);
 server.use("/jobs",jobOpeningRouter)
+
 server.get("/", (request: Request, response: Response) => {
   response.status(201).send("home");
 });

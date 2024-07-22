@@ -20,6 +20,11 @@ export const ErrorCodes: { [key: string]: CustomError } = {
     MESSAGE:
       "cannot delete this resource as it is referenced by another resource",
   },
+  REFERRAL_WITH_ID_NOT_FOUND: {
+    CODE: "REFERRAL_WITH_ID_NOT_FOUND",
+    MESSAGE:
+    "Referral with given ID not found",
+  },
   POSITION_WITH_ID_NOT_FOUND: {
     CODE: "POSITION_WITH_ID_NOT_FOUND",
     MESSAGE: "Position with given ID not found",
