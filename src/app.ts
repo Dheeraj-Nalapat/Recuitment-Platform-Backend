@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import employeeRouter from "./routes/employee.routes";
 import positionRouter from "./routes/position.routes";
 import jobOpeningRouter from "./routes/jobOpening.routes";
+import referralRouter from "./routes/referral.routes";
 
 
 const server = express();
@@ -15,8 +16,8 @@ server.use(loggerMiddleware);
 server.use(cors());
 server.use("/employee", employeeRouter);
 server.use("/position", positionRouter);
-server.use("/jobs",jobOpeningRouter)
-
+server.use("/jobs",jobOpeningRouter);
+server.use("/referrals",referralRouter);
 server.get("/", (request: Request, response: Response) => {
   response.status(201).send("home");
 });
