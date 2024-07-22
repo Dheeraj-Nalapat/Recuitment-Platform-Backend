@@ -51,6 +51,81 @@ class ReferralController {
     }
   };
 
+  public getAllReferralsByEmployee = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const employeeId = Number(req.params.id);
+      const referrals = await this.referralService.getAllReferralsByEmployee(employeeId);
+      if (!referrals) {
+        throw new HttpException(
+          404,
+          `No referral found from employee with id :${employeeId}`
+        );
+      }
+      res.status(200).send(referrals);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getAllReferralsByCandidate = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const candidateId = Number(req.params.id);
+      const referrals = await this.referralService.getAllReferralsByCandidate(candidateId);
+      if (!referrals) {
+        throw new HttpException(
+          404,
+          `No referral found from candidate with id :${candidateId}`
+        );
+      }
+      res.status(200).send(referrals);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getAllReferralsByJobOpening = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const jobOpeningId = Number(req.params.id);
+      const referrals = await this.referralService.getAllReferralsByJobOpening(jobOpeningId);
+      if (!referrals) {
+        throw new HttpException(
+          404,
+          `No referral found from job opening with id :${jobOpeningId}`
+        );
+      }
+      res.status(200).send(referrals);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public checkPreviousReferral = async (
+    req: Request,
+    res: Response,
+    next: NextFunction  
+  ) => {
+    const result = await this.referralService.checkPreviousReferral(
+        req.body.jobId,
+        req.body.employeeId,
+        req.body.email
+    )
+    console.log(result)
+    res.status(200).send(result)
+  };
+  
+
   public createReferral = async (
     req: Request,
     res: Response,
