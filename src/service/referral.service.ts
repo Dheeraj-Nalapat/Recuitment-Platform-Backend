@@ -162,13 +162,15 @@ class ReferralService {
       const result = await this.candidateService.createCandidate(newCandidate.name, newCandidate.email, newCandidate.experience, newCandidate.resume, newCandidate.skill);
       console.log(result)
     }
+    const savedCandidate = await this.candidateService.getCandidateByEmail(email);
+
 
     const newreferral = new Referral();
     newreferral.state = state;
     newreferral.bonusGiven = bonusGiven;
     newreferral.employee = employee;
     newreferral.jobOpening = jobOpening;
-    newreferral.candidate = newCandidate;
+    newreferral.candidate = savedCandidate;
     return this.referralRepository.save(newreferral);
   };
 
