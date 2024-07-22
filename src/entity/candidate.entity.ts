@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 import AbstractEntity from "./abstract.entity";
-import referral from "./referral.entity";
+import Referral from "./referral.entity";
 
 @Entity()
 class Candidate extends AbstractEntity {
@@ -19,8 +19,8 @@ class Candidate extends AbstractEntity {
   @Column("simple-json")
   skill: { name: string }[];
 
-  @OneToMany(() => referral, (referral) => referral.candidate)
-  referral: referral[];
+  @OneToMany(() => Referral, (referral) => referral.candidate)
+  referral: Referral[];
 }
 
 export default Candidate;

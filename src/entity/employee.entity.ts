@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, Unique } from "typeorm";
 import AbstractEntity from "./abstract.entity";
-import referral from "./referral.entity";
+import Referral from "./referral.entity";
 import Position from "./position.entity";
 
 @Entity()
@@ -20,8 +20,8 @@ class Employee extends AbstractEntity {
   @ManyToOne(() => Position, (position) => position.employee)
   position: Position;
 
-  @OneToMany(() => referral, (referral) => referral.employee)
-  referral: referral[];
+  @OneToMany(() => Referral, (referral) => referral.employee)
+  referral: Referral[];
 }
 
 export default Employee;

@@ -5,7 +5,7 @@ import JobOpenings from "./jobOpening.entity";
 import Employee from "./employee.entity";
 
 @Entity()
-class referral extends AbstractEntity {
+class Referral extends AbstractEntity {
   @Column()
   state: string;
 
@@ -25,4 +25,4 @@ class referral extends AbstractEntity {
   jobOpening: JobOpenings;
 }
 
-export default referral;
+export default Referral;

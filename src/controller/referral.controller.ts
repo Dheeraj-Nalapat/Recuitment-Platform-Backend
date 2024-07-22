@@ -1,22 +1,22 @@
 import { NextFunction, Request, Response, Router } from "express";
-import referralService from "../service/referral.service";
+import ReferralService from "../service/referral.service";
 import HttpException from "../exceptions/http.exceptions";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import authorize from "../middleware/authorization.middleware";
-import { referralDto } from "../dto/referral.dto";
-class referralController {
+import { ReferralDto } from "../dto/referral.dto";
+class ReferralController {
   public router: Router;
-  constructor(private referralService: referralService) {
+  constructor(private referralService: ReferralService) {
     this.router = Router();
-    this.router.get("/", this.getAllreferrals);
+    this.router.get("/", this.getAllReferrals);
     this.router.get("/:id", this.getReferralById);
     this.router.post("/", this.createReferral);
     this.router.put("/:id", this.updateReferral);
     this.router.delete("/:id", this.deleteReferral);
   }
 
-  public getAllreferrals = async (
+  public getAllReferrals = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -57,7 +57,7 @@ class referralController {
     next: NextFunction
   ) => {
     try {
-      const referral = plainToInstance(referralDto, req.body);
+      const referral = plainToInstance(ReferralDto, req.body);
       const errors = await validate(referral);
       if (errors.length) {
         console.log(JSON.stringify(errors));
@@ -84,13 +84,12 @@ class referralController {
     next: NextFunction
   ) => {
     try {
-      const referral = plainToInstance(referralDto, req.body);
+      const referral = plainToInstance(ReferralDto, req.body);
       const errors = await validate(referral);
       if (errors.length) {
         console.log(JSON.stringify(errors));
         throw new HttpException(400, JSON.stringify(errors));
       }
-      const updatedReferralData = req.body;
       const referralId = Number(req.params.id);
       const updatedReferral = await this.referralService.updateReferral(
         req.body.referralId,
@@ -118,4 +117,4 @@ class referralController {
   };
 }
 
-export default referralController;
+export default ReferralController;
