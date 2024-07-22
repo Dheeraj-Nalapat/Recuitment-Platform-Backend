@@ -9,22 +9,10 @@ import {
 
 export class ReferralDto {
   @IsNotEmpty()
-  @IsNumber()
-  employeeId: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  candidateId: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  jobId: number;
-
-  @IsNotEmpty()
   @IsString()
   state: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsDate()
   acceptDDate: Date;
 
@@ -34,17 +22,6 @@ export class ReferralDto {
 }
 
 export class UpdateReferralDto {
-  @IsOptional()
-  @IsNumber()
-  employeeId: number;
-
-  @IsOptional()
-  @IsNumber()
-  candidateId: number;
-
-  @IsOptional()
-  @IsNumber()
-  jobId: number;
 
   @IsOptional()
   @IsString()

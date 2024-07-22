@@ -1,3 +1,4 @@
+import exp from "constants";
 import Candidate from "../entity/candidate.entity";
 import Referral from "../entity/referral.entity";
 import ReferralRepository from "../repository/referral.repository";
@@ -144,12 +145,23 @@ class ReferralService {
     const candidate = await this.candidateService.getCandidateByEmail(email);
     if (candidate) {
       newCandidate = { ...candidate };
+      newCandidate.name = name;
+      newCandidate.email = email;
+      newCandidate.experience = experience;
+      newCandidate.resume = resume;
+      newCandidate.skill = skill;
+      const result = await  this.candidateService.updateCandidateById(candidate.id,name,email,experience,resume,skill);
+      console.log(result)
     }
-    newCandidate.name = name;
-    newCandidate.email = email;
-    newCandidate.experience = experience;
-    newCandidate.resume = resume;
-    newCandidate.skill = skill;
+    else{
+      newCandidate.name = name;
+      newCandidate.email = email;
+      newCandidate.experience = experience;
+      newCandidate.resume = resume;
+      newCandidate.skill = skill;
+      const result = await this.candidateService.createCandidate(newCandidate.name, newCandidate.email, newCandidate.experience, newCandidate.resume, newCandidate.skill);
+      console.log(result)
+    }
 
     const newreferral = new Referral();
     newreferral.state = state;

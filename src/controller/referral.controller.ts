@@ -141,10 +141,10 @@ class ReferralController {
       }
 
       const newReferral = await this.referralService.createReferral(
-        referral.state,
-        referral.bonusGiven,
-        referral.employeeId,
-        referral.jobId,
+        req.body.state,
+        req.body.bonusGiven,
+        req.body.employeeId,
+        req.body.jobId,
         req.body.name,
         req.body.email,
         req.body.experience,

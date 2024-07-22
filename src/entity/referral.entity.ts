@@ -9,7 +9,7 @@ class Referral extends AbstractEntity {
   @Column()
   state: string;
 
-  @Column()
+  @Column({ nullable: true })
   acceptDate: Date;
 
   @Column()
