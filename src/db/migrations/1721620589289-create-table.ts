@@ -11,7 +11,7 @@ export class CreateTable1721620589289 implements MigrationInterface {
       `CREATE TABLE "employee" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "name" character varying NOT NULL, "email" character varying NOT NULL, "experience" character varying NOT NULL, "password" character varying NOT NULL, "position_id" integer, CONSTRAINT "UQ_817d1d427138772d47eca048855" UNIQUE ("email"), CONSTRAINT "PK_3c2bc72f03fd5abbbc5ac169498" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "position" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_b7f483581562b4dc62ae1a5b7e2" PRIMARY KEY ("id"))`
+      `CREATE TABLE "position" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "name" character varying NOT NULL, CONSTRAINT "PK_b7f483581562b4dc62ae1a5b7e2" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
       `CREATE TABLE "job_opening" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "position_id" integer NOT NULL, "description" text NOT NULL, "skill" text NOT NULL, "location" character varying NOT NULL, "experience" character varying NOT NULL, "no_of_opening" integer NOT NULL, "active" boolean NOT NULL, CONSTRAINT "PK_2fa80b3147363501d81b9f6bbf3" PRIMARY KEY ("id"))`
