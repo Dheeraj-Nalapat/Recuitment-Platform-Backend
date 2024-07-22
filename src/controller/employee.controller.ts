@@ -5,7 +5,7 @@ import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { CreateEmployeeDto, UpdateEmployeeDto } from "../dto/employee.dto";
 import HttpException from "../exceptions/http.exceptions";
-import errorsToJson from "../utils/errorstojason";
+import errorsToJson from "../utils/errorstojson";
 import authorize from "../middleware/authorization.middleware";
 import { RequestWithUser } from "../utils/jwtPayload.types";
 
