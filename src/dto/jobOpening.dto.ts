@@ -2,6 +2,7 @@ import {
   IsBoolean,
   IsEmail,
   IsEnum,
+  IsJSON,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -17,7 +18,7 @@ export class CreateJobOpeningDto {
   position: string;
 
   @IsNotEmpty()
-  @IsString()
+  // @IsJSON()
   description: {
     responsibility: { point: string }[];
     qualification: { point: string }[];
@@ -40,7 +41,7 @@ export class CreateJobOpeningDto {
   active: boolean;
 
   @IsNotEmpty()
-  @IsString()
+  // @IsJSON()
   skills: { name: string }[];
 }
 

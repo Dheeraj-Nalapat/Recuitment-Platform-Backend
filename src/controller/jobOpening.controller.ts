@@ -72,6 +72,8 @@ class JobOpeningController {
           jobOpeningDto.noOfOpening,
           jobOpeningDto.active
         );
+      console.log(typeof jobOpeningDto.skills);
+      res.status(200).send(newJobOpening);
     } catch (err) {
       console.log(err);
       next(err);

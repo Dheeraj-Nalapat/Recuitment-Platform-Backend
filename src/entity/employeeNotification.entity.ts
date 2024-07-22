@@ -3,9 +3,10 @@ import AbstractEntity from "./abstract.entity";
 import Employee from "./employee.entity";
 
 @Entity()
-export class Notification extends AbstractEntity {
+export class EmployeeNotification extends AbstractEntity {
   @Column()
   message: string;
 
-  // @ManyToOne(()=> Employee,(employee)=>employee.notification)
+  @ManyToOne(() => Employee, (employee) => employee.id)
+  employee: Employee;
 }
