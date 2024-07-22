@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany, OneToOne } from "typeorm";
 import AbstractEntity from "./abstract.entity";
 import Position from "./position.entity";
-import Referal from "./referal.entity";
+import referral from "./referral.entity";
 
 @Entity()
 class JobOpening extends AbstractEntity {
@@ -32,8 +32,8 @@ class JobOpening extends AbstractEntity {
   @ManyToOne(() => Position, (position) => position.jobOpening)
   position: Position;
 
-  @OneToMany(() => Referal, (referal) => referal.jobOpening)
-  referal: Referal[];
+  @OneToMany(() => referral, (referral) => referral.jobOpening)
+  referral: referral[];
 }
 
 export default JobOpening;

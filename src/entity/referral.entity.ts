@@ -5,7 +5,7 @@ import JobOpenings from "./jobOpening.entity";
 import Employee from "./employee.entity";
 
 @Entity()
-class Referal extends AbstractEntity {
+class referral extends AbstractEntity {
   @Column()
   state: string;
 
@@ -15,14 +15,14 @@ class Referal extends AbstractEntity {
   @Column()
   bonusGiven: boolean;
 
-  @ManyToOne(() => Employee, (employee) => employee.referal)
+  @ManyToOne(() => Employee, (employee) => employee.referral)
   employee: Employee;
 
-  @ManyToOne(() => Candidate, (candidate) => candidate.referal)
+  @ManyToOne(() => Candidate, (candidate) => candidate.referral)
   candidate: Candidate;
 
-  @ManyToOne(() => JobOpenings, (jobOpenings) => jobOpenings.referal)
+  @ManyToOne(() => JobOpenings, (jobOpenings) => jobOpenings.referral)
   jobOpening: JobOpenings;
 }
 
-export default Referal;
+export default referral;
