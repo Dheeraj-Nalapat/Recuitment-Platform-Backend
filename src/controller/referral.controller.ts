@@ -70,7 +70,11 @@ class ReferralController {
         referral.bonusGiven,
         referral.employeeId,
         referral.jobId,
+        req.body.name,
         req.body.email,
+        req.body.experience,
+        req.body.resume,
+        req.body.skill
       );
       res.status(200).send(newReferral);
     } catch (error) {
