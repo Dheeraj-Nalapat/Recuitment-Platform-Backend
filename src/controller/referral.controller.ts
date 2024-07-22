@@ -15,7 +15,7 @@ class ReferralController {
     this.router.put("/:id", this.updateReferral);
     this.router.delete("/:id", this.deleteReferral);
   }
-
+  
   public getAllReferrals = async (
     req: Request,
     res: Response,
