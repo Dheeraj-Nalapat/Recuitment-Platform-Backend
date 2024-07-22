@@ -21,7 +21,7 @@ class Position {
   jobOpening: JobOpening[];
 
   @OneToMany(() => Employee, (employee) => employee.position)
-  employee: Employee;
+  employee: Employee[];
 }
 
 export default Position;

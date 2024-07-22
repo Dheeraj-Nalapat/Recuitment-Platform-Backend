@@ -21,7 +21,7 @@ class Employee extends AbstractEntity {
   position: Position;
 
   @OneToMany(() => Referal, (referal) => referal.employee)
-  referal: Referal;
+  referal: Referal[];
 }
 
 export default Employee;

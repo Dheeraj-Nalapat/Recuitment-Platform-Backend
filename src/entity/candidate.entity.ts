@@ -17,7 +17,7 @@ class Candidate extends AbstractEntity {
   resume: string;
 
   @Column("simple-json")
-  skill: { name: string[] };
+  skill: { name: string }[];
 
   @OneToMany(() => Referal, (referal) => referal.candidate)
   referal: Referal[];

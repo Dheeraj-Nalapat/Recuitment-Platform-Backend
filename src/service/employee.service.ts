@@ -7,7 +7,6 @@ import { jwtPayload } from "../utils/jwtPayload.types";
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 
-
 dotenv.config();
 
 class EmployeeService {
@@ -22,6 +21,10 @@ class EmployeeService {
       const { password, ...employeeWithOutPassword } = employee;
       return employeeWithOutPassword;
     });
+  };
+
+  getEmployeeByIdWithPassword = async (id: number) => {
+    return this.employeeRepository.findOneBy({ id });
   };
 
   getEmployeeById = async (id: number) => {
@@ -112,7 +115,7 @@ class EmployeeService {
     const payload: jwtPayload = {
       name: employee.name,
       email: employee.email,
-      position: employee.position.name
+      position: employee.position.name,
     };
 
     const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
@@ -120,8 +123,6 @@ class EmployeeService {
     });
     return { token };
   };
-
-
 }
 
 export default EmployeeService;

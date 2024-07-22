@@ -18,7 +18,10 @@ export class CreateJobOpeningDto {
 
   @IsNotEmpty()
   @IsString()
-  description: string;
+  description: {
+    responsibility: { point: string }[];
+    qualification: { point: string }[];
+  };
 
   @IsNotEmpty()
   @IsString()
@@ -38,7 +41,7 @@ export class CreateJobOpeningDto {
 
   @IsNotEmpty()
   @IsString()
-  skills: { name: string[] };
+  skills: { name: string }[];
 }
 
 export class UpdateJobOPeningDto {
@@ -48,14 +51,17 @@ export class UpdateJobOPeningDto {
 
   @IsOptional()
   @IsString()
-  description: string;
+  description: {
+    responsibility: { point: string }[];
+    qualification: { point: string }[];
+  };
 
   @IsOptional()
   @IsString()
   location: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   experience: string;
 
   @IsOptional()
@@ -68,5 +74,5 @@ export class UpdateJobOPeningDto {
 
   @IsOptional()
   @IsString()
-  skills?: string;
+  skills: { name: string }[];
 }

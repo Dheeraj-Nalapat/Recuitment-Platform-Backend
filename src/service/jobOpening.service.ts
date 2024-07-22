@@ -22,9 +22,12 @@ class JobOpeningService {
 
   createJobOpeningByPosition = async (
     position: string,
-    description: string,
+    description: {
+      responsibility: { point: string }[];
+      qualification: { point: string }[];
+    },
     location: string,
-    skills: { name: string[] },
+    skills: { name: string }[],
     experience: string,
     noOfOpenings: number,
     active: boolean
@@ -51,9 +54,12 @@ class JobOpeningService {
   updateJobOpeningById = async (
     id: number,
     position: string,
-    description: string,
+    description: {
+      responsibility: { point: string }[];
+      qualification: { point: string }[];
+    },
     location: string,
-    skill: { name: string[] },
+    skill: { name: string }[],
     experience: string,
     noOfOpenings: number,
     active: boolean

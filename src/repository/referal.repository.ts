@@ -6,6 +6,7 @@ class ReferalRepository {
 
   find = async (filter: any) => {
     return this.repository.find({
+      where: filter,
       relations: ["employee", "jobOpening", "candidate"],
     });
   };
