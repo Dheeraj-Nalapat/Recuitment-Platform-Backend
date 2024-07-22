@@ -8,7 +8,7 @@ class JobOpening extends AbstractEntity {
   @Column()
   positionId;
 
-  @Column()
+  @Column("simple-json")
   description: {
     responsibility: { point: string }[];
     qualification: { point: string }[];
