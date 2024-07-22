@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import JobOpeningService from "../service/jobOpening.service";
 import { ErrorCodes } from "../utils/error.code";
 import { plainToInstance } from "class-transformer";
-import { CreateJobOpeningDto } from "../dto/jobOpening.dto";
+import { CreateJobOpeningDto, UpdateJobOPeningDto } from "../dto/jobOpening.dto";
 import { validate } from "class-validator";
 import errorsToJson from "../utils/errorstojason";
 import HttpException from "../exceptions/http.exceptions";
@@ -14,6 +14,7 @@ class JobOpeningController {
     this.router.get("/", this.getAllJobOpening);
     this.router.get("/:id", this.getJobOpeningById);
     this.router.post("/", this.createJobOpening);
+    this.router.put("/:id",this.updateJobOpening)
   }
 
   public getAllJobOpening = async (
@@ -73,11 +74,50 @@ class JobOpeningController {
     }
   };
 
-  public updateJobOpening = async (
+  public updateJobOpening= async (
     req: Request,
     res: Response,
     next: NextFunction
-  ) => {};
+  ) => {
+    try {
+      const jobOpeningDto = plainToInstance(UpdateJobOPeningDto, req.body);
+      const errors = await validate(jobOpeningDto);
+      if (errors.length) {
+        console.log(JSON.stringify(errors));
+        throw new HttpException(400, JSON.stringify(errors));
+      }
+
+     
+      const jobOPeningId = Number(req.params.id);
+      const updatedJobOpening = await this.jobOpeningService.updateJobOpeningById(
+        jobOPeningId,
+        jobOpeningDto.position,
+        jobOpeningDto.description,
+        jobOpeningDto.location,
+        jobOpeningDto.skills,
+        jobOpeningDto.experience,
+        jobOpeningDto.noOfOpening,
+        jobOpeningDto.active
+);
+if (!updatedJobOpening) {
+  throw ErrorCodes.JOBOPENING_WITH_ID_NOT_FOUND;
 }
+res.status(204).send(updatedJobOpening);
+} catch (err) {
+console.log(err);
+next(err);
+}};
+    
+    
+
+
+
+
+  };
+
 
 export default JobOpeningController;
+
+
+
+
