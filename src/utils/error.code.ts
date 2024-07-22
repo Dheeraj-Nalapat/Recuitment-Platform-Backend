@@ -22,8 +22,7 @@ export const ErrorCodes: { [key: string]: CustomError } = {
   },
   REFERRAL_WITH_ID_NOT_FOUND: {
     CODE: "REFERRAL_WITH_ID_NOT_FOUND",
-    MESSAGE:
-    "Referral with given ID not found",
+    MESSAGE: "Referral with given ID not found",
   },
   POSITION_WITH_ID_NOT_FOUND: {
     CODE: "POSITION_WITH_ID_NOT_FOUND",
@@ -36,10 +35,6 @@ export const ErrorCodes: { [key: string]: CustomError } = {
   CANDIDATE_NOT_FOUND: {
     CODE: "CANDIDATE_NOT_FOUND",
     MESSAGE: "Candidate not found, please enter candidate details",
-  },
-  REFERRAL_WITH_ID_NOT_FOUND: {
-    CODE: "REFERAL_WITH_ID_NOT_FOUND",
-    MESSAGE: "Refferal not found",
   },
 };
 
