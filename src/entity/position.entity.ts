@@ -8,12 +8,10 @@ import {
 } from "typeorm";
 import JobOpening from "./jobOpening.entity";
 import Employee from "./employee.entity";
+import AbstractEntity from "./abstract.entity";
 
 @Entity()
-class Position {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+class Position extends AbstractEntity {
   @Column()
   name: string;
 
