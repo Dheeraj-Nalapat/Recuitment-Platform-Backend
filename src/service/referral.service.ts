@@ -77,21 +77,37 @@ class referralService {
     } else {
       result.candidateExists = true;
     }
-    const candidatesreferral = jobOpeningEntity.referral.filter(
-      (referral) => referral.candidate.id == existingCandidate.id
+    const candidatesReferral = jobOpeningEntity.referral.filter(
+      (referral) =>
+        referral.candidate.id == existingCandidate.id &&
+        referral.state != "Rejected"
     );
-    if (candidatesreferral.length) {
+    if (candidatesReferral.length) {
       result.alreadyApplied = true;
       return result;
     }
-    const employeereferral = await this.getAllreferralsByEmployee(employeeId);
-    const positionreferral = employeereferral.filter(
+    const rejectedCandidateReferral = jobOpeningEntity.referral.filter(
+      (referral) =>
+        referral.candidate.id == existingCandidate.id &&
+        referral.state == "Rejected"
+    );
+    for (let i = 0; i < rejectedCandidateReferral.length; i++) {
+      let currentDate = new Date();
+      let referralDate = new Date(rejectedCandidateReferral[i].createdAt);
+      let monthsDifferance = differenceInMonths(currentDate, referralDate);
+      if (monthsDifferance < 6) {
+        result.employeereferralValid = false;
+        return result;
+      }
+    }
+    const employeeReferral = await this.getAllreferralsByEmployee(employeeId);
+    const positionReferral = employeeReferral.filter(
       (referral) =>
         referral.jobOpening.positionId == jobOpeningEntity.positionId
     );
-    for (let i = 0; i < positionreferral.length; i++) {
+    for (let i = 0; i < positionReferral.length; i++) {
       let currentDate = new Date();
-      let referralDate = new Date(positionreferral[i].createdAt);
+      let referralDate = new Date(positionReferral[i].createdAt);
       let monthsDifferance = differenceInMonths(currentDate, referralDate);
       if (monthsDifferance < 6) {
         result.employeereferralValid = false;
@@ -127,17 +143,23 @@ class referralService {
       throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
     }
 
-    const newCandidate = new Candidate();
+    let newCandidate = new Candidate();
     const candidate = await this.candidateService.getCandidateByEmail(email);
-    if (!candidate) {
+    if (candidate) {
+      newCandidate = { ...candidate };
     }
+    newCandidate.name = name;
+    newCandidate.email = email;
+    newCandidate.experience = experience;
+    newCandidate.resume = resume;
+    newCandidate.skill = skill;
 
     const newreferral = new referral();
     newreferral.state = state;
     newreferral.bonusGiven = bonusGiven;
     newreferral.employee = employee;
     newreferral.jobOpening = jobOpening;
-    newreferral.candidate = candidate;
+    newreferral.candidate = newCandidate;
     return this.referralRepository.save(newreferral);
   };
 
