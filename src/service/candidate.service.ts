@@ -24,7 +24,7 @@ class CandidateService {
     email: string,
     experience: string,
     resume: string,
-    skill: { name: string[] }
+    skill: { name: string }[]
   ) => {
     const newCandidate = new Candidate();
     newCandidate.name = name;
@@ -42,7 +42,7 @@ class CandidateService {
     email: string,
     experience: string,
     resume: string,
-    skill: { name: string[] }
+    skill: { name: string }[]
   ) => {
     const existingCandidate = await this.candidateRepository.findOneBy({ id });
     if (!existingCandidate) {

@@ -1,12 +1,11 @@
+import Candidate from "../entity/candidate.entity";
 import Referal from "../entity/referal.entity";
-import CandidateRepository from "../repository/candidate.repository";
-import EmployeeRepository from "../repository/employee.repository";
-import JobOpeningRepository from "../repository/jobOpening.repository";
 import ReferalRepository from "../repository/referal.repository";
 import { ErrorCodes } from "../utils/error.code";
 import CandidateService from "./candidate.service";
 import EmployeeService from "./employee.service";
 import JobOpeningService from "./jobOpening.service";
+import { differenceInMonths } from "date-fns";
 
 class ReferalService {
   constructor(
@@ -19,7 +18,6 @@ class ReferalService {
   getAllReferals = async () => {
     return this.referalRepository.find({
       where: {},
-      relations: ["employee", "jobOpening", "candidate"],
     });
   };
 
@@ -57,14 +55,66 @@ class ReferalService {
     return this.referalRepository.find({ where: { jobOpening } });
   };
 
+  checkPreviousReferal = async (
+    jobId: number,
+    employeeId: number,
+    email: string
+  ) => {
+    let result = {
+      candidateExists: false,
+      alreadyApplied: false,
+      employeeReferalValid: true,
+      candidate: null,
+    };
+    const jobOpeningEntity = await this.jobOpeningService.getJobOpeningById(
+      jobId
+    );
+    const existingCandidate = await this.candidateService.getCandidateByEmail(
+      email
+    );
+    if (!existingCandidate) {
+      return result;
+    } else {
+      result.candidateExists = true;
+    }
+    const candidatesReferal = jobOpeningEntity.referal.filter(
+      (referal) => referal.candidate.id == existingCandidate.id
+    );
+    if (candidatesReferal.length) {
+      result.alreadyApplied = true;
+      return result;
+    }
+    const employeeReferal = await this.getAllReferalsByEmployee(employeeId);
+    const positionReferal = employeeReferal.filter(
+      (referal) => referal.jobOpening.positionId == jobOpeningEntity.positionId
+    );
+    for (let i = 0; i < positionReferal.length; i++) {
+      let currentDate = new Date();
+      let referalDate = new Date(positionReferal[i].createdAt);
+      let monthsDifferance = differenceInMonths(currentDate, referalDate);
+      if (monthsDifferance < 6) {
+        result.employeeReferalValid = false;
+        return result;
+      }
+    }
+    return result;
+  };
+
+  //TODO : create candidate
   createReferal = async (
     state: string,
     bonusGiven: boolean,
     employeeId: number,
     jobOpeningId: number,
-    candidateId: number
+    name: string,
+    email: string,
+    experience: string,
+    resume: string,
+    skill: { name: string }[]
   ) => {
-    const employee = await this.employeeService.getEmployeeById(employeeId);
+    const employee = await this.employeeService.getEmployeeByIdWithPassword(
+      employeeId
+    );
     if (!employee) {
       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
     }
@@ -76,9 +126,9 @@ class ReferalService {
       throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
     }
 
-    const candidate = await this.candidateService.getCandidateById(candidateId);
+    const newCandidate = new Candidate();
+    const candidate = await this.candidateService.getCandidateByEmail(email);
     if (!candidate) {
-      throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
     }
 
     const newReferal = new Referal();
