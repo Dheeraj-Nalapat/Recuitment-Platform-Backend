@@ -16,9 +16,7 @@ class ReferralService {
   ) {}
 
   getAllReferrals = async () => {
-    return this.referralRepository.find({
-      where: {},
-    });
+    return this.referralRepository.find({});
   };
 
   getReferralById = async (id: number) => {
@@ -34,7 +32,7 @@ class ReferralService {
     if (!employee) {
       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
     }
-    return this.referralRepository.find({ where: { employee } });
+    return this.referralRepository.find({ employee });
   };
 
   getAllReferralsByCandidate = async (candidateId: number) => {
@@ -42,7 +40,7 @@ class ReferralService {
     if (!candidate) {
       throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
     }
-    return this.referralRepository.find({ where: { candidate } });
+    return this.referralRepository.find({ candidate });
   };
 
   getAllReferralsByJobOpening = async (jobOpeningId: number) => {
@@ -52,7 +50,7 @@ class ReferralService {
     if (!jobOpening) {
       throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
     }
-    return this.referralRepository.find({ where: { jobOpening } });
+    return this.referralRepository.find({ jobOpening });
   };
 
   checkPreviousReferral = async (
@@ -117,7 +115,6 @@ class ReferralService {
     return result;
   };
 
-  //TODO : create candidate
   createReferral = async (
     state: string,
     bonusGiven: boolean,
@@ -170,7 +167,21 @@ class ReferralService {
     }
     existingReferral.state = state;
     existingReferral.bonusGiven = bonusGiven;
-
+    if (state == "Joined") {
+      const updatedJobOpen = this.jobOpeningService.updateJobOpeningById(
+        existingReferral.jobOpening.id,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        existingReferral.jobOpening.noOfOpening - 1 > 0
+          ? existingReferral.jobOpening.noOfOpening - 1
+          : 0,
+        existingReferral.jobOpening.noOfOpening - 1 > 0 ? true : false
+      );
+      existingReferral.acceptDate = new Date();
+    }
     return this.referralRepository.save(existingReferral);
   };
 
