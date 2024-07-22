@@ -15,13 +15,13 @@ class referralService {
     private jobOpeningService: JobOpeningService
   ) {}
 
-  getAllreferrals = async () => {
+  getAllReferrals = async () => {
     return this.referralRepository.find({
       where: {},
     });
   };
 
-  getreferralById = async (id: number) => {
+  getReferralById = async (id: number) => {
     const referral = await this.referralRepository.findOneBy({ id });
     if (!referral) {
       throw ErrorCodes.referral_WITH_ID_NOT_FOUND;
@@ -29,7 +29,7 @@ class referralService {
     return referral;
   };
 
-  getAllreferralsByEmployee = async (employeeId: number) => {
+  getAllReferralsByEmployee = async (employeeId: number) => {
     const employee = await this.employeeService.getEmployeeById(employeeId);
     if (!employee) {
       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
@@ -37,7 +37,7 @@ class referralService {
     return this.referralRepository.find({ where: { employee } });
   };
 
-  getAllreferralsByCandidate = async (candidateId: number) => {
+  getAllReferralsByCandidate = async (candidateId: number) => {
     const candidate = await this.candidateService.getCandidateById(candidateId);
     if (!candidate) {
       throw ErrorCodes.CANDIDATE_WITH_ID_NOT_FOUND;
@@ -45,7 +45,7 @@ class referralService {
     return this.referralRepository.find({ where: { candidate } });
   };
 
-  getAllreferralsByJobOpening = async (jobOpeningId: number) => {
+  getAllReferralsByJobOpening = async (jobOpeningId: number) => {
     const jobOpening = await this.jobOpeningService.getJobOpeningById(
       jobOpeningId
     );
@@ -55,7 +55,7 @@ class referralService {
     return this.referralRepository.find({ where: { jobOpening } });
   };
 
-  checkPreviousreferral = async (
+  checkPreviousReferral = async (
     jobId: number,
     employeeId: number,
     email: string
@@ -100,7 +100,7 @@ class referralService {
         return result;
       }
     }
-    const employeeReferral = await this.getAllreferralsByEmployee(employeeId);
+    const employeeReferral = await this.getAllReferralsByEmployee(employeeId);
     const positionReferral = employeeReferral.filter(
       (referral) =>
         referral.jobOpening.positionId == jobOpeningEntity.positionId
@@ -118,7 +118,7 @@ class referralService {
   };
 
   //TODO : create candidate
-  createreferral = async (
+  createReferral = async (
     state: string,
     bonusGiven: boolean,
     employeeId: number,
@@ -163,19 +163,19 @@ class referralService {
     return this.referralRepository.save(newreferral);
   };
 
-  updatereferral = async (id: number, state: string, bonusGiven: boolean) => {
-    const existingreferral = await this.getreferralById(id);
-    if (!existingreferral) {
-      throw ErrorCodes.referral_WITH_ID_NOT_FOUND;
+  updateReferral = async (id: number, state: string, bonusGiven: boolean) => {
+    const existingReferral = await this.getReferralById(id);
+    if (!existingReferral) {
+      throw ErrorCodes.REFERRAL_WITH_ID_NOT_FOUND;
     }
-    existingreferral.state = state;
-    existingreferral.bonusGiven = bonusGiven;
+    existingReferral.state = state;
+    existingReferral.bonusGiven = bonusGiven;
 
-    return this.referralRepository.save(existingreferral);
+    return this.referralRepository.save(existingReferral);
   };
 
-  deletereferral = async (id: number) => {
-    const referral = await this.getreferralById(id);
+  deleteReferral = async (id: number) => {
+    const referral = await this.getReferralById(id);
     if (!referral) {
       throw ErrorCodes.referral_WITH_ID_NOT_FOUND;
     }
