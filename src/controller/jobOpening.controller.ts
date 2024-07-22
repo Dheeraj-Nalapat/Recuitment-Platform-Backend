@@ -2,9 +2,12 @@ import { NextFunction, Request, Response, Router } from "express";
 import JobOpeningService from "../service/jobOpening.service";
 import { ErrorCodes } from "../utils/error.code";
 import { plainToInstance } from "class-transformer";
-import { CreateJobOpeningDto, UpdateJobOPeningDto } from "../dto/jobOpening.dto";
+import {
+  CreateJobOpeningDto,
+  UpdateJobOPeningDto,
+} from "../dto/jobOpening.dto";
 import { validate } from "class-validator";
-import errorsToJson from "../utils/errorstojason";
+import errorsToJson from "../utils/errorstojson";
 import HttpException from "../exceptions/http.exceptions";
 
 class JobOpeningController {
@@ -14,8 +17,8 @@ class JobOpeningController {
     this.router.get("/", this.getAllJobOpening);
     this.router.get("/:id", this.getJobOpeningById);
     this.router.post("/", this.createJobOpening);
-    this.router.put("/:id",this.updateJobOpening);
-    this.router.delete("/:id",this.deleteJobOpening)
+    this.router.put("/:id", this.updateJobOpening);
+    this.router.delete("/:id", this.deleteJobOpening);
   }
 
   public getAllJobOpening = async (
@@ -75,7 +78,7 @@ class JobOpeningController {
     }
   };
 
-  public updateJobOpening= async (
+  public updateJobOpening = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -88,58 +91,47 @@ class JobOpeningController {
         throw new HttpException(400, JSON.stringify(errors));
       }
 
-     
       const jobOPeningId = Number(req.params.id);
-      const updatedJobOpening = await this.jobOpeningService.updateJobOpeningById(
-        jobOPeningId,
-        jobOpeningDto.position,
-        jobOpeningDto.description,
-        jobOpeningDto.location,
-        jobOpeningDto.skills,
-        jobOpeningDto.experience,
-        jobOpeningDto.noOfOpening,
-        jobOpeningDto.active
-);
-if (!updatedJobOpening) {
-  throw ErrorCodes.JOBOPENING_WITH_ID_NOT_FOUND;
-}
-res.status(204).send(updatedJobOpening);
-} catch (err) {
-console.log(err);
-next(err);
-}};
-
-
-public deleteJobOpening = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    // const role = req.role;
-    // if (role != Role.HR) {
-    //   throw ErrorCodes.UNAUTHORIZED;
-    // }
-    const jobId = Number(req.params.id);
-    const deletedJobOPening = await this.jobOpeningService.deleteJobOpening(
-      jobId
-    );
-    res.status(204).send("Deleted");
-  } catch (err) {
-    
-    next(err);
-  }
-};
-    
-
-
-
-
+      const updatedJobOpening =
+        await this.jobOpeningService.updateJobOpeningById(
+          jobOPeningId,
+          jobOpeningDto.position,
+          jobOpeningDto.description,
+          jobOpeningDto.location,
+          jobOpeningDto.skills,
+          jobOpeningDto.experience,
+          jobOpeningDto.noOfOpening,
+          jobOpeningDto.active
+        );
+      if (!updatedJobOpening) {
+        throw ErrorCodes.JOBOPENING_WITH_ID_NOT_FOUND;
+      }
+      res.status(204).send(updatedJobOpening);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
   };
 
+  public deleteJobOpening = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      // const role = req.role;
+      // if (role != Role.HR) {
+      //   throw ErrorCodes.UNAUTHORIZED;
+      // }
+      const jobId = Number(req.params.id);
+      const deletedJobOPening = await this.jobOpeningService.deleteJobOpening(
+        jobId
+      );
+      res.status(204).send("Deleted");
+    } catch (err) {
+      next(err);
+    }
+  };
+}
 
 export default JobOpeningController;
-
-
-
-
