@@ -9,7 +9,7 @@ class notificationsController {
   constructor(private notificationsService: NotificationsService) {
     this.router = express.Router();
 
-    this.router.get("/", authorize, this.getUnreadNotifications);
+    this.router.get("/:id", authorize, this.getUnreadNotifications);
     this.router.put("/:id/read", authorize, this.markAsRead);
   }
 
@@ -19,7 +19,7 @@ class notificationsController {
     next: express.NextFunction
   ) => {
     try {
-      const userId = Number(req.body.id);
+      const userId = Number(req.params.id);
       const notifications =
         await this.notificationsService.getUnreadNotifications(userId);
       res.json({ notifications });
