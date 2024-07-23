@@ -36,6 +36,10 @@ class EmployeeService {
     return null;
   };
 
+  getEmployeeByEmail = async (email: string) => {
+    return this.employeeRepository.findOneBy({ email });
+  };
+
   createEmployee = async (
     name: string,
     email: string,

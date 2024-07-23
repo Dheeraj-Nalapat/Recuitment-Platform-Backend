@@ -39,7 +39,13 @@ const referralController = new ReferralController(
       )
     ),
     new NotificationsService(
-      new NotificationsRepository(dataSource.getRepository(Notifications))
+      new NotificationsRepository(dataSource.getRepository(Notifications)),
+      new EmployeeService(
+        new EmployeeRepository(dataSource.getRepository(Employee)),
+        new PositionService(
+          new PositionRepository(dataSource.getRepository(Position))
+        )
+      )
     )
   )
 );
