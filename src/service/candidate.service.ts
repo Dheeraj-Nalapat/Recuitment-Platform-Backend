@@ -24,14 +24,14 @@ class CandidateService {
     email: string,
     experience: string,
     resume: string,
-    skill: { name: string }[]
+    skills: string[]
   ) => {
     const newCandidate = new Candidate();
     newCandidate.name = name;
     newCandidate.email = email;
     newCandidate.experience = experience;
     newCandidate.resume = resume;
-    newCandidate.skill = skill;
+    newCandidate.skills = skills;
 
     return this.candidateRepository.save(newCandidate);
   };
@@ -42,7 +42,7 @@ class CandidateService {
     email: string,
     experience: string,
     resume: string,
-    skill: { name: string }[]
+    skills: string[]
   ) => {
     const existingCandidate = await this.candidateRepository.findOneBy({ id });
     if (!existingCandidate) {
@@ -52,7 +52,7 @@ class CandidateService {
     existingCandidate.email = email;
     existingCandidate.experience = experience;
     existingCandidate.resume = resume;
-    existingCandidate.skill = skill;
+    existingCandidate.skills = skills;
 
     return this.candidateRepository.save(existingCandidate);
   };

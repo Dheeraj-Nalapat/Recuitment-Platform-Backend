@@ -149,7 +149,7 @@ class ReferralController {
         req.body.email,
         req.body.experience,
         req.body.resume,
-        req.body.skill
+        req.body.skills
       );
       res.status(200).send(newReferral);
     } catch (error) {

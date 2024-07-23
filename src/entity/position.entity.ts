@@ -1,10 +1,7 @@
 import {
   Column,
   Entity,
-  ManyToOne,
   OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
 } from "typeorm";
 import JobOpening from "./jobOpening.entity";
 import Employee from "./employee.entity";
@@ -17,10 +14,10 @@ class Position extends AbstractEntity {
   name: string;
 
   @OneToMany(() => JobOpening, (jobOpening) => jobOpening.position)
-  jobOpening: JobOpening[];
+  jobOpenings: JobOpening[];
 
   @OneToMany(() => Employee, (employee) => employee.position)
-  employee: Employee[];
+  employees: Employee[];
 }
 
 export default Position;

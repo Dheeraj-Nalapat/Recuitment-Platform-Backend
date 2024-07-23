@@ -1,17 +1,17 @@
-import { Repository } from "typeorm";
+import { FindOptionsWhere, Repository } from "typeorm";
 import Candidate from "../entity/candidate.entity";
 
 class CandidateRepository {
   constructor(private repository: Repository<Candidate>) {}
 
   find = async () => {
-    return this.repository.find({ relations: { referral: true } });
+    return this.repository.find({ relations: { referrals: true } });
   };
 
-  findOneBy = async (filter: Partial<Candidate>) => {
+  findOneBy = async (filter:FindOptionsWhere<Candidate>) => {
     return this.repository.findOne({
       where: filter,
-      relations: { referral: true },
+      relations: { referrals: true },
     });
   };
 

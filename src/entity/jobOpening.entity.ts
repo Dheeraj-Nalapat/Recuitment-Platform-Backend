@@ -5,24 +5,21 @@ import Referral from "./referral.entity";
 
 @Entity()
 class JobOpening extends AbstractEntity {
-  @Column()
-  positionId;
 
   @Column("simple-json")
   description: {
-    responsibility: { point: string }[];
-    qualification: { point: string }[];
+    responsibility: string[];
+    qualification: string [];
   };
 
-  @Column("simple-json")
-  skill: { name: string }[];
+  @Column()
+  skills : string [];
 
   @Column()
   location: string;
 
   @Column()
   experience: string;
-  0;
 
   @Column()
   noOfOpening: number;
@@ -30,11 +27,11 @@ class JobOpening extends AbstractEntity {
   @Column()
   active: boolean;
 
-  @ManyToOne(() => Position, (position) => position.jobOpening)
+  @ManyToOne(() => Position, (position) => position.jobOpenings)
   position: Position;
 
   @OneToMany(() => Referral, (referral) => referral.jobOpening)
-  referral: Referral[];
+  referrals: Referral[];
 }
 
 export default JobOpening;

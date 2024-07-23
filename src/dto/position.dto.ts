@@ -1,8 +1,7 @@
 import {
   IsNotEmpty,
   IsOptional,
-  IsString,
-  ValidateNested,
+  IsString
 } from "class-validator";
 
 export class PositionDto {
