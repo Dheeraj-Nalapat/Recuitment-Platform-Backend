@@ -14,7 +14,6 @@ import CandidateRepository from "../repository/candidate.repository";
 class CandidateController {
   public router: express.Router;
   constructor(
-    private candidateRepositoy: CandidateRepository,
     private candidateService: CandidateService
   ) {
     this.router = express.Router();
@@ -22,6 +21,7 @@ class CandidateController {
     this.router.get("/:id", this.getCandidateById);
     this.router.get("/name/:name", this.getCandidateByName);
     this.router.get("/email/:email", this.getCandidateByEmail);
+    this.router.get("/referral/:email", this.getReferralByCandidateEmail);
     this.router.post("/", this.createCandidate);
     this.router.put("/:id", this.updateCandidateById);
     this.router.delete("/:id", this.deleteCandidate);
@@ -97,6 +97,27 @@ class CandidateController {
       }
 
       res.status(200).send(candidate);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public getReferralByCandidateEmail = async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    try {
+      const candidateEmail = req.body.email;
+      const candidate = await this.candidateService.getCandidateByEmail(
+        candidateEmail
+      );
+
+      if (!candidate) {
+        throw ErrorCodes.CANDIDATE_NOT_FOUND;
+      }
+
+      res.status(200).send(candidate.referrals);
     } catch (err) {
       next(err);
     }
