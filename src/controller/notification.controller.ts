@@ -1,5 +1,5 @@
 import express from "express";
-import EmployeeNotificationService from "../service/employeeNotification.service";
+import EmployeeNotificationService from "../service/notification.service";
 import { RequestWithUser } from "../utils/jwtPayload.types";
 import authorize from "../middleware/authorization.middleware";
 
