@@ -4,7 +4,7 @@ import HttpException from "../exceptions/http.exceptions";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import authorize from "../middleware/authorization.middleware";
-import { ReferralDto } from "../dto/referral.dto";
+import { ReferralDto, UpdateReferralDto } from "../dto/referral.dto";
 class ReferralController {
   public router: Router;
   constructor(private referralService: ReferralService) {
@@ -15,7 +15,7 @@ class ReferralController {
     this.router.put("/:id", this.updateReferral);
     this.router.delete("/:id", this.deleteReferral);
   }
-  
+
   public getAllReferrals = async (
     req: Request,
     res: Response,
@@ -58,7 +58,9 @@ class ReferralController {
   ) => {
     try {
       const employeeId = Number(req.params.id);
-      const referrals = await this.referralService.getAllReferralsByEmployee(employeeId);
+      const referrals = await this.referralService.getAllReferralsByEmployee(
+        employeeId
+      );
       if (!referrals) {
         throw new HttpException(
           404,
@@ -78,7 +80,9 @@ class ReferralController {
   ) => {
     try {
       const candidateId = Number(req.params.id);
-      const referrals = await this.referralService.getAllReferralsByCandidate(candidateId);
+      const referrals = await this.referralService.getAllReferralsByCandidate(
+        candidateId
+      );
       if (!referrals) {
         throw new HttpException(
           404,
@@ -98,7 +102,9 @@ class ReferralController {
   ) => {
     try {
       const jobOpeningId = Number(req.params.id);
-      const referrals = await this.referralService.getAllReferralsByJobOpening(jobOpeningId);
+      const referrals = await this.referralService.getAllReferralsByJobOpening(
+        jobOpeningId
+      );
       if (!referrals) {
         throw new HttpException(
           404,
@@ -114,17 +120,16 @@ class ReferralController {
   public checkPreviousReferral = async (
     req: Request,
     res: Response,
-    next: NextFunction  
+    next: NextFunction
   ) => {
     const result = await this.referralService.checkPreviousReferral(
-        req.body.jobId,
-        req.body.employeeId,
-        req.body.email
-    )
-    console.log(result)
-    res.status(200).send(result)
+      req.body.jobId,
+      req.body.employeeId,
+      req.body.email
+    );
+    console.log(result);
+    res.status(200).send(result);
   };
-  
 
   public createReferral = async (
     req: Request,
@@ -163,7 +168,7 @@ class ReferralController {
     next: NextFunction
   ) => {
     try {
-      const referral = plainToInstance(ReferralDto, req.body);
+      const referral = plainToInstance(UpdateReferralDto, req.body);
       const errors = await validate(referral);
       if (errors.length) {
         console.log(JSON.stringify(errors));
@@ -171,7 +176,7 @@ class ReferralController {
       }
       const referralId = Number(req.params.id);
       const updatedReferral = await this.referralService.updateReferral(
-        req.body.referralId,
+        referralId,
         req.body.state,
         req.body.bonusGiven
       );
