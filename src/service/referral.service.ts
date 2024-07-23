@@ -180,6 +180,12 @@ class ReferralService {
       email
     );
 
+    const message = `Employee: ${employee.name} referred ${savedCandidate.name} for the position ${jobOpening.position.name}.`;
+    const notification = await this.notificationsService.createNotification(
+      employeeId,
+      message
+    );
+
     const newreferral = new Referral();
     newreferral.status = status;
     newreferral.bonusGiven = bonusGiven;
@@ -195,7 +201,7 @@ class ReferralService {
       throw ErrorCodes.REFERRAL_WITH_ID_NOT_FOUND;
     }
     if (existingReferral.status != status) {
-      let message = `Status of ${existingReferral.referree.name} with RefferalId:${existingReferral.id} was changed to ${status}`;
+      let message = `Status of ${existingReferral.referree.name} with RefferalId:${existingReferral.id} was changed to ${status}.`;
       const stateChangeNotification =
         this.notificationsService.createNotification(
           existingReferral.referrer.id,
@@ -206,6 +212,13 @@ class ReferralService {
     existingReferral.bonusGiven = bonusGiven;
 
     if (status == Status.accepted) {
+      if (!(existingReferral.jobOpening.noOfOpening - 1)) {
+        const message = `Number of the openings for the Job Opening with ID:${existingReferral.jobOpening.id} is met.`;
+        const notification = await this.notificationsService.createNotification(
+          existingReferral.referrer.id,
+          message
+        );
+      }
       const updatedJobOpen = this.jobOpeningService.updateJobOpeningById(
         existingReferral.jobOpening.id,
         undefined,
