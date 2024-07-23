@@ -1,12 +1,10 @@
 import { Repository } from "typeorm";
-import { EmployeeNotification } from "../entity/notification.entity";
+import { Notifications } from "../entity/notification.entity";
 
-class EmployeeNotificationRepository {
-  constructor(private repository: Repository<EmployeeNotification>) {}
+class NotificationsRepository {
+  constructor(private repository: Repository<Notifications>) {}
 
-  findUnreadByUserId = async (
-    userId: number
-  ): Promise<EmployeeNotification[]> => {
+  findUnreadByUserId = async (userId: number): Promise<Notifications[]> => {
     return this.repository.find({
       where: { employee: { id: userId }, read: false },
       order: { createdAt: "DESC" },
@@ -20,12 +18,12 @@ class EmployeeNotificationRepository {
   createNotification = async (
     userId: number,
     message: string
-  ): Promise<EmployeeNotification> => {
-    const newNoftification = new EmployeeNotification();
+  ): Promise<Notifications> => {
+    const newNoftification = new Notifications();
     newNoftification.employee = { id: userId } as any;
     newNoftification.message = message;
     return this.repository.save(newNoftification);
   };
 }
 
-export default EmployeeNotificationRepository;
+export default NotificationsRepository;

@@ -3,7 +3,7 @@ import AbstractEntity from "./abstract.entity";
 import Employee from "./employee.entity";
 
 @Entity()
-export class EmployeeNotification extends AbstractEntity {
+export class Notifications extends AbstractEntity {
   @Column()
   message: string;
 

@@ -1,24 +1,19 @@
-import EmployeeNotificationRepository from "../repository/notification.repository";
+import NotificationsRepository from "../repository/notification.repository";
 
-class EmployeeNotificationService {
-  constructor(
-    private employeeNotificationRepository: EmployeeNotificationRepository
-  ) {}
+class NotificationsService {
+  constructor(private notificationsRepository: NotificationsRepository) {}
 
   getUnreadNotifications = async (userId: number) => {
-    return this.employeeNotificationRepository.findUnreadByUserId(userId);
+    return this.notificationsRepository.findUnreadByUserId(userId);
   };
 
   markAsRead = async (id: number) => {
-    await this.employeeNotificationRepository.markAsRead(id);
+    await this.notificationsRepository.markAsRead(id);
   };
 
   createNotification = async (userId: number, message: string) => {
-    return this.employeeNotificationRepository.createNotification(
-      userId,
-      message
-    );
+    return this.notificationsRepository.createNotification(userId, message);
   };
 }
 
-export default EmployeeNotificationService;
+export default NotificationsService;
