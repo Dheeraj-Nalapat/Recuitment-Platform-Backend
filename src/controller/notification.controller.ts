@@ -9,8 +9,8 @@ class notificationsController {
   constructor(private notificationsService: NotificationsService) {
     this.router = express.Router();
 
-    this.router.get("/:id", authorize, this.getUnreadNotifications);
-    this.router.put("/:id/read", authorize, this.markAsRead);
+    this.router.get("/", authorize, this.getUnreadNotifications);
+    this.router.put("/read", authorize, this.markAsRead);
   }
 
   public getUnreadNotifications = async (
@@ -19,9 +19,9 @@ class notificationsController {
     next: express.NextFunction
   ) => {
     try {
-      const userId = Number(req.params.id);
+      const userEmail = req.email;
       const notifications =
-        await this.notificationsService.getUnreadNotifications(userId);
+        await this.notificationsService.getUnreadNotifications(userEmail);
       res.json({ notifications });
     } catch (err) {
       res.status(500).send("an error occured while sending notification");
