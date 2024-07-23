@@ -7,13 +7,15 @@ import CandidateService from "./candidate.service";
 import EmployeeService from "./employee.service";
 import JobOpeningService from "./jobOpening.service";
 import { differenceInMonths } from "date-fns";
+import NotificationsService from "./notification.service";
 
 class ReferralService {
   constructor(
     private referralRepository: ReferralRepository,
     private employeeService: EmployeeService,
     private candidateService: CandidateService,
-    private jobOpeningService: JobOpeningService
+    private jobOpeningService: JobOpeningService,
+    private notificationsService: NotificationsService
   ) {}
 
   getAllReferrals = async () => {
@@ -191,6 +193,14 @@ class ReferralService {
     const existingReferral = await this.getReferralById(id);
     if (!existingReferral) {
       throw ErrorCodes.REFERRAL_WITH_ID_NOT_FOUND;
+    }
+    if (existingReferral.state != state) {
+      let message = `Status of ${existingReferral.candidate.name} with RefferalId:${existingReferral.id} was changed to ${state}`;
+      const stateChangeNotification =
+        this.notificationsService.createNotification(
+          existingReferral.employee.id,
+          message
+        );
     }
     existingReferral.state = state;
     existingReferral.bonusGiven = bonusGiven;
