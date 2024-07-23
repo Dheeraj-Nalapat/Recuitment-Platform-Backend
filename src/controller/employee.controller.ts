@@ -35,6 +35,7 @@ class EmployeeController {
       console.log(token);
       res.status(200).send({ data: token });
     } catch (err) {
+      res.status(401).send("Login Failed");
       next(err);
     }
   };
