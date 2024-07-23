@@ -20,6 +20,7 @@ class CandidateController {
     this.router.get("/name/:name", this.getCandidateByName);
     this.router.get("/email/:email", this.getCandidateByEmail);
     this.router.get("/referral/:email", this.getReferralByCandidateEmail);
+    this.router.get("/referral/:email", this.getReferralByCandidateEmail);
     this.router.post("/", this.createCandidate);
     this.router.put("/:id", this.updateCandidateById);
     this.router.delete("/:id", this.deleteCandidate);
