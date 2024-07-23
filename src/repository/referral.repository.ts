@@ -7,14 +7,14 @@ class referralRepository {
   find = async (filter: any) => {
     return this.repository.find({
       where: filter,
-      relations: ["employee", "jobOpening", "candidate"],
+      relations: ["referrer", "jobOpening", "referree"],
     });
   };
 
   findOneBy = async (filter: Partial<Referral>) => {
     return this.repository.findOne({
       where: filter,
-      relations: ["employee", "jobOpening", "candidate"],
+      relations: ["referrer", "jobOpening", "referree"],
     });
   };
 

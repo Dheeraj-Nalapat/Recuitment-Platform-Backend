@@ -17,11 +17,11 @@ class Employee extends AbstractEntity {
   @Column()
   password: string;
 
-  @ManyToOne(() => Position, (position) => position.employee)
+  @ManyToOne(() => Position, (position) => position.employees)
   position: Position;
 
-  @OneToMany(() => Referral, (referral) => referral.employee)
-  referral: Referral[];
+  @OneToMany(() => Referral, (referral) => referral.referrer)
+  referrals: Referral[];
 }
 
 export default Employee;

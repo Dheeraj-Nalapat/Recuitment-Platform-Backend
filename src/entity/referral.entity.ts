@@ -1,13 +1,14 @@
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 import AbstractEntity from "./abstract.entity";
 import Candidate from "./candidate.entity";
-import JobOpenings from "./jobOpening.entity";
+import JobOpening from "./jobOpening.entity";
 import Employee from "./employee.entity";
+import { Status } from "../utils/status.enum";
 
 @Entity()
 class Referral extends AbstractEntity {
   @Column()
-  state: string;
+  status: Status;
 
   @Column({ nullable: true })
   acceptDate: Date;
@@ -15,14 +16,14 @@ class Referral extends AbstractEntity {
   @Column()
   bonusGiven: boolean;
 
-  @ManyToOne(() => Employee, (employee) => employee.referral)
-  employee: Employee;
+  @ManyToOne(() => Employee, (employee) => employee.referrals)
+  referrer: Employee;
 
-  @ManyToOne(() => Candidate, (candidate) => candidate.referral)
-  candidate: Candidate;
+  @ManyToOne(() => Candidate, (candidate) => candidate.referrals)
+  referree: Candidate;
 
-  @ManyToOne(() => JobOpenings, (jobOpenings) => jobOpenings.referral)
-  jobOpening: JobOpenings;
+  @ManyToOne(() => JobOpening, (jobOpenings) => jobOpenings.referrals)
+  jobOpening: JobOpening;
 }
 
 export default Referral;

@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsBoolean,
   IsEmail,
   IsEnum,
@@ -18,10 +19,9 @@ export class CreateJobOpeningDto {
   position: string;
 
   @IsNotEmpty()
-  // @IsJSON()
   description: {
-    responsibility: { point: string }[];
-    qualification: { point: string }[];
+    responsibility: string[];
+    qualification: string[];
   };
 
   @IsNotEmpty()
@@ -41,8 +41,9 @@ export class CreateJobOpeningDto {
   active: boolean;
 
   @IsNotEmpty()
-  // @IsJSON()
-  skills: { name: string }[];
+  @IsArray()
+  @IsString({ each: true })
+  skills: string[];
 }
 
 export class UpdateJobOPeningDto {
@@ -53,8 +54,8 @@ export class UpdateJobOPeningDto {
   @IsOptional()
   @IsString()
   description: {
-    responsibility: { point: string }[];
-    qualification: { point: string }[];
+    responsibility: string[];
+    qualification: string[];
   };
 
   @IsOptional()
@@ -73,7 +74,8 @@ export class UpdateJobOPeningDto {
   @IsBoolean()
   active: boolean;
 
-  @IsOptional()
-  @IsString()
-  skills: { name: string }[];
+  @IsNotEmpty()
+  @IsArray()
+  @IsString({ each: true })
+  skills: string[];
 }

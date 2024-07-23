@@ -8,6 +8,7 @@ import EmployeeService from "./employee.service";
 import JobOpeningService from "./jobOpening.service";
 import { differenceInMonths } from "date-fns";
 import NotificationsService from "./notification.service";
+import { Status } from "../utils/status.enum";
 
 class ReferralService {
   constructor(
@@ -78,19 +79,19 @@ class ReferralService {
     } else {
       result.candidateExists = true;
     }
-    const candidatesReferral = jobOpeningEntity.referral.filter(
+    const candidatesReferral = jobOpeningEntity.referrals.filter(
       (referral) =>
-        referral.candidate.id == existingCandidate.id &&
-        referral.state != "Rejected"
+        referral.referree.id == existingCandidate.id &&
+        referral.status != Status.declined
     );
     if (candidatesReferral.length) {
       result.alreadyApplied = true;
       return result;
     }
-    const rejectedCandidateReferral = jobOpeningEntity.referral.filter(
+    const rejectedCandidateReferral = jobOpeningEntity.referrals.filter(
       (referral) =>
-        referral.candidate.id == existingCandidate.id &&
-        referral.state == "Rejected"
+        referral.referree.id == existingCandidate.id &&
+        referral.status == Status.declined
     );
     for (let i = 0; i < rejectedCandidateReferral.length; i++) {
       let currentDate = new Date();
@@ -103,8 +104,7 @@ class ReferralService {
     }
     const employeeReferral = await this.getAllReferralsByEmployee(employeeId);
     const positionReferral = employeeReferral.filter(
-      (referral) =>
-        referral.jobOpening.positionId == jobOpeningEntity.positionId
+      (referral) => referral.jobOpening.position == jobOpeningEntity.position
     );
     for (let i = 0; i < positionReferral.length; i++) {
       let currentDate = new Date();
@@ -119,7 +119,7 @@ class ReferralService {
   };
 
   createReferral = async (
-    state: string,
+    status: Status,
     bonusGiven: boolean,
     employeeId: number,
     jobOpeningId: number,
@@ -127,7 +127,7 @@ class ReferralService {
     email: string,
     experience: string,
     resume: string,
-    skill: { name: string }[]
+    skills: string[]
   ) => {
     const employee = await this.employeeService.getEmployeeByIdWithPassword(
       employeeId
@@ -151,14 +151,14 @@ class ReferralService {
       newCandidate.email = email;
       newCandidate.experience = experience;
       newCandidate.resume = resume;
-      newCandidate.skill = skill;
+      newCandidate.skills = skills;
       const result = await this.candidateService.updateCandidateById(
         candidate.id,
         name,
         email,
         experience,
         resume,
-        skill
+        skills
       );
       console.log(result);
     } else {
@@ -166,13 +166,13 @@ class ReferralService {
       newCandidate.email = email;
       newCandidate.experience = experience;
       newCandidate.resume = resume;
-      newCandidate.skill = skill;
+      newCandidate.skills = skills;
       const result = await this.candidateService.createCandidate(
         newCandidate.name,
         newCandidate.email,
         newCandidate.experience,
         newCandidate.resume,
-        newCandidate.skill
+        newCandidate.skills
       );
       console.log(result);
     }
@@ -181,31 +181,31 @@ class ReferralService {
     );
 
     const newreferral = new Referral();
-    newreferral.state = state;
+    newreferral.status = status;
     newreferral.bonusGiven = bonusGiven;
-    newreferral.employee = employee;
+    newreferral.referrer = employee;
     newreferral.jobOpening = jobOpening;
-    newreferral.candidate = savedCandidate;
+    newreferral.referree = savedCandidate;
     return this.referralRepository.save(newreferral);
   };
 
-  updateReferral = async (id: number, state: string, bonusGiven: boolean) => {
+  updateReferral = async (id: number, status: Status, bonusGiven: boolean) => {
     const existingReferral = await this.getReferralById(id);
     if (!existingReferral) {
       throw ErrorCodes.REFERRAL_WITH_ID_NOT_FOUND;
     }
-    if (existingReferral.state != state) {
-      let message = `Status of ${existingReferral.candidate.name} with RefferalId:${existingReferral.id} was changed to ${state}`;
+    if (existingReferral.status != status) {
+      let message = `Status of ${existingReferral.referree.name} with RefferalId:${existingReferral.id} was changed to ${status}`;
       const stateChangeNotification =
         this.notificationsService.createNotification(
-          existingReferral.employee.id,
+          existingReferral.referrer.id,
           message
         );
     }
-    existingReferral.state = state;
+    existingReferral.status = status;
     existingReferral.bonusGiven = bonusGiven;
 
-    if (state == "Joined") {
+    if (status == Status.accepted) {
       const updatedJobOpen = this.jobOpeningService.updateJobOpeningById(
         existingReferral.jobOpening.id,
         undefined,

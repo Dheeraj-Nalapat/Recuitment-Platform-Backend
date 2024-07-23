@@ -16,11 +16,11 @@ class Candidate extends AbstractEntity {
   @Column()
   resume: string;
 
-  @Column("simple-json")
-  skill: { name: string }[];
+  @Column("simple-array")
+  skills: string[];
 
-  @OneToMany(() => Referral, (referral) => referral.candidate)
-  referral: Referral[];
+  @OneToMany(() => Referral, (referral) => referral.referree)
+  referrals: Referral[];
 }
 
 export default Candidate;

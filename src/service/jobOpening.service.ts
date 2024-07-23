@@ -23,11 +23,11 @@ class JobOpeningService {
   createJobOpeningByPosition = async (
     position: string,
     description: {
-      responsibility: { point: string }[];
-      qualification: { point: string }[];
+      responsibility: string[],
+      qualification: string[],
     },
     location: string,
-    skills: { name: string }[],
+    skills: string[],
     experience: string,
     noOfOpenings: number,
     active: boolean
@@ -43,7 +43,7 @@ class JobOpeningService {
     newJobOpening.position = positionEntity;
     newJobOpening.description = description;
     newJobOpening.location = location;
-    newJobOpening.skill = skills;
+    newJobOpening.skills = skills;
     newJobOpening.experience = experience;
     newJobOpening.noOfOpening = noOfOpenings;
     newJobOpening.active = active;
@@ -55,11 +55,11 @@ class JobOpeningService {
     id: number,
     position: string,
     description: {
-      responsibility: { point: string }[];
-      qualification: { point: string }[];
+      responsibility: string[],
+      qualification: string[],
     },
     location: string,
-    skill: { name: string }[],
+    skills: string[],
     experience: string,
     noOfOpenings: number,
     active: boolean
@@ -80,7 +80,7 @@ class JobOpeningService {
     existingJobOpening.position = positionEntity;
     existingJobOpening.description = description;
     existingJobOpening.location = location;
-    existingJobOpening.skill = skill;
+    existingJobOpening.skills = skills;
     existingJobOpening.experience = experience;
     existingJobOpening.noOfOpening = noOfOpenings;
     existingJobOpening.active = active;

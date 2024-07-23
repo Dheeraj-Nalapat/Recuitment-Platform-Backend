@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsEmail,
   IsJSON,
   IsNotEmpty,
@@ -26,8 +27,9 @@ export class CreateCandidateDto {
   resume: string;
 
   @IsNotEmpty()
-  @IsJSON()
-  skill: JSON;
+  @IsArray()
+  @IsString({ each: true })
+  skills: string[];
 }
 export class UpdateCandidateDto {
   @IsOptional()
@@ -47,6 +49,7 @@ export class UpdateCandidateDto {
   resume: string;
 
   @IsOptional()
-  @IsJSON()
-  skill: JSON;
+  @IsArray()
+  @IsString({ each: true })
+  skills: JSON;
 }

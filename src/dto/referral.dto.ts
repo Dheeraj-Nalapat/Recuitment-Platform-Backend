@@ -1,16 +1,18 @@
 import {
   IsBoolean,
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
 } from "class-validator";
+import { Status } from "../utils/status.enum";
 
 export class ReferralDto {
   @IsNotEmpty()
-  @IsString()
-  state: string;
+  @IsEnum(Status)
+  state: Status;
 
   @IsOptional()
   @IsDate()
@@ -24,8 +26,8 @@ export class ReferralDto {
 export class UpdateReferralDto {
 
   @IsOptional()
-  @IsString()
-  state: string;
+  @IsEnum(Status)
+  state: Status;
 
   @IsOptional()
   @IsDate()
