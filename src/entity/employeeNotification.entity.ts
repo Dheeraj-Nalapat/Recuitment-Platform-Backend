@@ -9,4 +9,7 @@ export class EmployeeNotification extends AbstractEntity {
 
   @ManyToOne(() => Employee, (employee) => employee.id)
   employee: Employee;
+
+  @Column({ default: false })
+  read: boolean;
 }
