@@ -13,9 +13,7 @@ import CandidateRepository from "../repository/candidate.repository";
 
 class CandidateController {
   public router: express.Router;
-  constructor(
-    private candidateService: CandidateService
-  ) {
+  constructor(private candidateService: CandidateService) {
     this.router = express.Router();
     this.router.get("/", this.getAllCandidate);
     this.router.get("/:id", this.getCandidateById);
@@ -66,7 +64,7 @@ class CandidateController {
     next: express.NextFunction
   ) => {
     try {
-      const candidateName = req.body.name; 
+      const candidateName = req.body.name;
       const candidate = await this.candidateService.getCandidateByName(
         candidateName
       );
