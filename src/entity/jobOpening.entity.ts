@@ -12,7 +12,7 @@ class JobOpening extends AbstractEntity {
     qualification: string [];
   };
 
-  @Column()
+  @Column("simple-array")
   skills : string [];
 
   @Column()

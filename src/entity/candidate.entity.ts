@@ -16,7 +16,7 @@ class Candidate extends AbstractEntity {
   @Column()
   resume: string;
 
-  @Column()
+  @Column("simple-array")
   skills: string[];
 
   @OneToMany(() => Referral, (referral) => referral.referree)
