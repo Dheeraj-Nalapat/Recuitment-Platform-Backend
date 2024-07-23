@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { EmployeeNotification } from "../entity/employeeNotification.entity";
+import { EmployeeNotification } from "../entity/notification.entity";
 
 class EmployeeNotificationRepository {
   constructor(private repository: Repository<EmployeeNotification>) {}

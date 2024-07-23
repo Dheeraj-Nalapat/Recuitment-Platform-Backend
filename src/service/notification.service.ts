@@ -1,4 +1,4 @@
-import EmployeeNotificationRepository from "../repository/employeeNotification.repository";
+import EmployeeNotificationRepository from "../repository/notification.repository";
 
 class EmployeeNotificationService {
   constructor(

@@ -22,6 +22,7 @@ class JobOpening extends AbstractEntity {
 
   @Column()
   experience: string;
+  0;
 
   @Column()
   noOfOpening: number;

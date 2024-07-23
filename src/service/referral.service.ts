@@ -150,20 +150,33 @@ class ReferralService {
       newCandidate.experience = experience;
       newCandidate.resume = resume;
       newCandidate.skill = skill;
-      const result = await  this.candidateService.updateCandidateById(candidate.id,name,email,experience,resume,skill);
-      console.log(result)
-    }
-    else{
+      const result = await this.candidateService.updateCandidateById(
+        candidate.id,
+        name,
+        email,
+        experience,
+        resume,
+        skill
+      );
+      console.log(result);
+    } else {
       newCandidate.name = name;
       newCandidate.email = email;
       newCandidate.experience = experience;
       newCandidate.resume = resume;
       newCandidate.skill = skill;
-      const result = await this.candidateService.createCandidate(newCandidate.name, newCandidate.email, newCandidate.experience, newCandidate.resume, newCandidate.skill);
-      console.log(result)
+      const result = await this.candidateService.createCandidate(
+        newCandidate.name,
+        newCandidate.email,
+        newCandidate.experience,
+        newCandidate.resume,
+        newCandidate.skill
+      );
+      console.log(result);
     }
-    const savedCandidate = await this.candidateService.getCandidateByEmail(email);
-
+    const savedCandidate = await this.candidateService.getCandidateByEmail(
+      email
+    );
 
     const newreferral = new Referral();
     newreferral.state = state;
@@ -181,6 +194,7 @@ class ReferralService {
     }
     existingReferral.state = state;
     existingReferral.bonusGiven = bonusGiven;
+
     if (state == "Joined") {
       const updatedJobOpen = this.jobOpeningService.updateJobOpeningById(
         existingReferral.jobOpening.id,
