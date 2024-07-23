@@ -13,14 +13,13 @@ import CandidateRepository from "../repository/candidate.repository";
 
 class CandidateController {
   public router: express.Router;
-  constructor(
-    private candidateService: CandidateService
-  ) {
+  constructor(private candidateService: CandidateService) {
     this.router = express.Router();
     this.router.get("/", this.getAllCandidate);
     this.router.get("/:id", this.getCandidateById);
     this.router.get("/name/:name", this.getCandidateByName);
     this.router.get("/email/:email", this.getCandidateByEmail);
+    this.router.get("/referral/:email", this.getReferralByCandidateEmail);
     this.router.get("/referral/:email", this.getReferralByCandidateEmail);
     this.router.post("/", this.createCandidate);
     this.router.put("/:id", this.updateCandidateById);
@@ -66,7 +65,7 @@ class CandidateController {
     next: express.NextFunction
   ) => {
     try {
-      const candidateName = req.body.name; 
+      const candidateName = req.body.name;
       const candidate = await this.candidateService.getCandidateByName(
         candidateName
       );

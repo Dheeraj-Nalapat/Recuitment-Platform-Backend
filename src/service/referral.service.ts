@@ -9,6 +9,7 @@ import JobOpeningService from "./jobOpening.service";
 import { differenceInMonths } from "date-fns";
 import NotificationsService from "./notification.service";
 import { Status } from "../utils/status.enum";
+import { ADMIN_ID } from "../utils/constants";
 
 class ReferralService {
   constructor(
@@ -182,7 +183,7 @@ class ReferralService {
 
     const message = `Employee: ${employee.name} referred ${savedCandidate.name} for the position ${jobOpening.position.name}.`;
     const notification = await this.notificationsService.createNotification(
-      employeeId,
+      ADMIN_ID,
       message
     );
 
@@ -215,7 +216,7 @@ class ReferralService {
       if (!(existingReferral.jobOpening.noOfOpening - 1)) {
         const message = `Number of the openings for the Job Opening with ID:${existingReferral.jobOpening.id} is met.`;
         const notification = await this.notificationsService.createNotification(
-          existingReferral.referrer.id,
+          ADMIN_ID,
           message
         );
       }
