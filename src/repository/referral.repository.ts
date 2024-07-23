@@ -13,6 +13,7 @@ class referralRepository {
 
   findOneBy = async (filter: Partial<Referral>) => {
     return this.repository.findOne({
+      where: filter,
       relations: ["employee", "jobOpening", "candidate"],
     });
   };
