@@ -1,14 +1,12 @@
 import express from "express";
-import EmployeeNotificationService from "../service/notification.service";
+import NotificationsService from "../service/notification.service";
 import { RequestWithUser } from "../utils/jwtPayload.types";
 import authorize from "../middleware/authorization.middleware";
 
-class EmployeeNotificationController {
+class notificationsController {
   public router: express.Router;
 
-  constructor(
-    private employeeNotificationService: EmployeeNotificationService
-  ) {
+  constructor(private notificationsService: NotificationsService) {
     this.router = express.Router();
 
     this.router.get("/", authorize, this.getUnreadNotifications);
@@ -23,7 +21,7 @@ class EmployeeNotificationController {
     try {
       const userId = Number(req.body.id);
       const notifications =
-        await this.employeeNotificationService.getUnreadNotifications(userId);
+        await this.notificationsService.getUnreadNotifications(userId);
       res.json({ notifications });
     } catch (err) {
       res.status(500).send("an error occured while sending notification");
@@ -38,7 +36,7 @@ class EmployeeNotificationController {
   ) => {
     try {
       const notificationId = Number(req.params.id);
-      await this.employeeNotificationService.markAsRead(notificationId);
+      await this.notificationsService.markAsRead(notificationId);
       res.status(200).json({ success: true });
     } catch (err) {
       res
@@ -49,4 +47,4 @@ class EmployeeNotificationController {
   };
 }
 
-export default EmployeeNotificationController;
+export default notificationsController;
