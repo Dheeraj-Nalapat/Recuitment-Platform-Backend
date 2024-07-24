@@ -2,7 +2,7 @@ import { NextFunction } from "express";
 import { Response } from "express";
 import { jwtPayload, RequestWithUser } from "../utils/jwtPayload.types";
 import jsonwebtoken from "jsonwebtoken";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -17,6 +17,7 @@ const authorize = async (
     request.name = (payload as jwtPayload).name;
     request.email = (payload as jwtPayload).email;
     request.position = (payload as jwtPayload).position;
+    request.userId = (payload as jwtPayload).userId;
     return next();
   } catch (error) {
     next(error);

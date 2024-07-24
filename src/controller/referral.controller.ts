@@ -5,6 +5,7 @@ import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import authorize from "../middleware/authorization.middleware";
 import { ReferralDto, UpdateReferralDto } from "../dto/referral.dto";
+import { RequestWithUser } from "../utils/jwtPayload.types";
 class ReferralController {
   public router: Router;
   constructor(private referralService: ReferralService) {
@@ -132,7 +133,7 @@ class ReferralController {
   };
 
   public createReferral = async (
-    req: Request,
+    req: RequestWithUser,
     res: Response,
     next: NextFunction
   ) => {
@@ -148,7 +149,7 @@ class ReferralController {
       const newReferral = await this.referralService.createReferral(
         req.body.state,
         req.body.bonusGiven,
-        req.body.employeeId,
+        req.body.userId,
         req.body.jobId,
         req.body.name,
         req.body.email,
