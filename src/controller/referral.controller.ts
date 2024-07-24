@@ -12,9 +12,13 @@ class ReferralController {
     this.router = Router();
     this.router.get("/", this.getAllReferrals);
     this.router.get("/:id", this.getReferralById);
+    this.router.get("/candidate/:id", this.getAllReferralsByCandidate);
+    this.router.get("/employee/:id", this.getAllReferralsByEmployee);
+    this.router.get("/job/:id", this.getAllReferralsByJobOpening);
     this.router.post("/", this.createReferral);
     this.router.put("/:id", this.updateReferral);
     this.router.delete("/:id", this.deleteReferral);
+    this.router.post("/check", this.checkPreviousReferral);
   }
 
   public getAllReferrals = async (

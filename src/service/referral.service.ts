@@ -66,7 +66,7 @@ class ReferralService {
     let result = {
       candidateExists: false,
       alreadyApplied: false,
-      employeeReferralValid: true,
+      referralValid: true,
       candidate: null,
     };
     const jobOpeningEntity = await this.jobOpeningService.getJobOpeningById(
@@ -80,40 +80,38 @@ class ReferralService {
     } else {
       result.candidateExists = true;
     }
-    const candidatesReferral = jobOpeningEntity.referrals.filter(
-      (referral) =>
-        referral.referree.id == existingCandidate.id &&
-        referral.status != Status.declined
-    );
-    if (candidatesReferral.length) {
-      result.alreadyApplied = true;
-      return result;
-    }
-    const rejectedCandidateReferral = jobOpeningEntity.referrals.filter(
-      (referral) =>
-        referral.referree.id == existingCandidate.id &&
-        referral.status == Status.declined
-    );
-    for (let i = 0; i < rejectedCandidateReferral.length; i++) {
-      let currentDate = new Date();
-      let referralDate = new Date(rejectedCandidateReferral[i].createdAt);
-      let monthsDifferance = differenceInMonths(currentDate, referralDate);
-      if (monthsDifferance < 6) {
-        result.employeeReferralValid = false;
-        return result;
+    console.log(jobOpeningEntity.referrals[0].id);
+    const employeeReferral = jobOpeningEntity.referrals.filter(
+      async (referral) => {
+        let referralOfEmloyee = await this.getReferralById(referral.id);
+        if (referralOfEmloyee.referrer.id == employeeId) {
+          return true;
+        }
+        return false;
       }
-    }
-    const employeeReferral = await this.getAllReferralsByEmployee(employeeId);
-    const positionReferral = employeeReferral.filter(
-      (referral) => referral.jobOpening.position == jobOpeningEntity.position
     );
-    for (let i = 0; i < positionReferral.length; i++) {
-      let currentDate = new Date();
-      let referralDate = new Date(positionReferral[i].createdAt);
-      let monthsDifferance = differenceInMonths(currentDate, referralDate);
-      if (monthsDifferance < 6) {
-        result.employeeReferralValid = false;
-        return result;
+    if (employeeReferral) {
+      result.alreadyApplied = true;
+    }
+
+    const candidatesReferral = (
+      await this.candidateService.getCandidateByEmail(email)
+    ).referrals;
+    for (let i = 0; i < candidatesReferral.length; i++) {
+      let referralOfCandidate = await this.getReferralById(
+        candidatesReferral[i].id
+      );
+      if (
+        jobOpeningEntity.position.id ==
+        referralOfCandidate.jobOpening.position.id
+      ) {
+        let currentDate = new Date();
+        let referralDate = new Date(candidatesReferral[i].createdAt);
+        let monthsDifferance = differenceInMonths(currentDate, referralDate);
+        if (monthsDifferance < 6) {
+          result.referralValid = false;
+          return result;
+        }
       }
     }
     return result;

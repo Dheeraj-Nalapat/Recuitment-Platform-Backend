@@ -9,12 +9,12 @@ class referralRepository {
       where: filter,
       // relations: ["referrer", "jobOpening", "referree"],
       relations: {
-        referrer : true,
+        referrer: true,
         referree: true,
         jobOpening: {
-          position: true
-        }
-      }
+          position: true,
+        },
+      },
     });
   };
 
@@ -23,12 +23,12 @@ class referralRepository {
       where: filter,
       // relations: ["referrer", "jobOpening", "referree"],
       relations: {
-        referrer : true,
+        referrer: true,
         referree: true,
         jobOpening: {
-          position: true
-        }
-      }
+          position: true,
+        },
+      },
     });
   };
 
