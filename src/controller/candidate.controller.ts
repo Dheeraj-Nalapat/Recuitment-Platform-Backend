@@ -87,7 +87,8 @@ class CandidateController {
     next: express.NextFunction
   ) => {
     try {
-      const candidateEmail = req.body.email;
+      const candidateEmail = req.params.email;
+      console.log(candidateEmail)
       const candidate = await this.candidateService.getCandidateByEmail(
         candidateEmail
       );
@@ -108,7 +109,8 @@ class CandidateController {
     next: express.NextFunction
   ) => {
     try {
-      const candidateEmail = req.body.email;
+      const candidateEmail = req.params.email;
+      console.log(candidateEmail)
       const candidate = await this.candidateService.getCandidateByEmail(
         candidateEmail
       );
