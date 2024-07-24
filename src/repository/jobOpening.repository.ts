@@ -6,7 +6,15 @@ class JobOpeningRepository {
   constructor(private repository: Repository<JobOpening>) {}
 
   find = async () => {
-    return this.repository.find({ relations: ["position", "referrals"] });
+    return this.repository.find({
+      //relations: ["position", "referrals"]
+      relations: {
+        position: true,
+        referrals: {
+          referrer: true,
+        },
+      },
+    });
   };
 
   findOneBy = async (filter: FindOptionsWhere<JobOpening>) => {
