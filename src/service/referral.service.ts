@@ -10,6 +10,7 @@ import { differenceInMonths } from "date-fns";
 import NotificationsService from "./notification.service";
 import { Status } from "../utils/status.enum";
 import { ADMIN_ID } from "../utils/constants";
+import { EntityManager } from "typeorm";
 
 class ReferralService {
   constructor(
