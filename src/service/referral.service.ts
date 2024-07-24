@@ -11,6 +11,7 @@ import NotificationsService from "./notification.service";
 import { Status } from "../utils/status.enum";
 import { ADMIN_ID } from "../utils/constants";
 import { EntityManager } from "typeorm";
+import dataSource from "../db/data-source.db";
 
 class ReferralService {
   constructor(
@@ -82,15 +83,17 @@ class ReferralService {
       result.candidateExists = true;
     }
     console.log(jobOpeningEntity.referrals[0].id);
-    const employeeReferral = jobOpeningEntity.referrals.filter(
-      async (referral) => {
-        let referralOfEmloyee = await this.getReferralById(referral.id);
-        if (referralOfEmloyee.referrer.id == employeeId) {
-          return true;
-        }
-        return false;
+    const jobOpeningReferral = jobOpeningEntity.referrals;
+    let employeeReferral = 0;
+    for (let i = 0; i < jobOpeningReferral.length; i++) {
+      let referralOfEmloyee = await this.getReferralById(
+        jobOpeningReferral[i].id
+      );
+      if (referralOfEmloyee.referrer.id == employeeId) {
+        employeeReferral += 1;
       }
-    );
+    }
+    console.log(employeeReferral);
     if (employeeReferral) {
       result.alreadyApplied = true;
     }
@@ -129,6 +132,7 @@ class ReferralService {
     resume: string,
     skills: string[]
   ) => {
+    // dataSource.manager.transaction(async (transactionalEntityManager) => {
     const employee = await this.employeeService.getEmployeeByIdWithPassword(
       employeeId
     );
@@ -161,6 +165,7 @@ class ReferralService {
         skills
       );
       console.log(result);
+      // transactionalEntityManager.save(Candidate, newCandidate);
     } else {
       newCandidate.name = name;
       newCandidate.email = email;
@@ -175,16 +180,22 @@ class ReferralService {
         newCandidate.skills
       );
       console.log(result);
+      // transactionalEntityManager.save(Candidate, newCandidate);
     }
     const savedCandidate = await this.candidateService.getCandidateByEmail(
       email
     );
 
     const message = `Employee: ${employee.name} referred ${savedCandidate.name} for the position ${jobOpening.position.name}.`;
-    const notification = await this.notificationsService.createNotification(
-      ADMIN_ID,
-      message
+    let admins = (await this.employeeService.getAllEmployee()).filter(
+      (employee) => employee.position.name == "ADMIN"
     );
+    for (let i = 0; i < admins.length; i++) {
+      const notification = await this.notificationsService.createNotification(
+        admins[i].id,
+        message
+      );
+    }
 
     const newreferral = new Referral();
     newreferral.status = status;
@@ -193,6 +204,8 @@ class ReferralService {
     newreferral.jobOpening = jobOpening;
     newreferral.referree = savedCandidate;
     return this.referralRepository.save(newreferral);
+    // transactionalEntityManager.save(Referral, newCandidate);
+    // });
   };
 
   updateReferral = async (id: number, status: Status, bonusGiven: boolean) => {
@@ -214,10 +227,16 @@ class ReferralService {
     if (status == Status.accepted) {
       if (!(existingReferral.jobOpening.noOfOpening - 1)) {
         const message = `Number of the openings for the Job Opening with ID:${existingReferral.jobOpening.id} is met.`;
-        const notification = await this.notificationsService.createNotification(
-          ADMIN_ID,
-          message
+        let admins = (await this.employeeService.getAllEmployee()).filter(
+          (employee) => employee.position.name == "ADMIN"
         );
+        for (let i = 0; i < admins.length; i++) {
+          const notification =
+            await this.notificationsService.createNotification(
+              admins[i].id,
+              message
+            );
+        }
       }
       const updatedJobOpen = this.jobOpeningService.updateJobOpeningById(
         existingReferral.jobOpening.id,
