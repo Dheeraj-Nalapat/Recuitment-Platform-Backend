@@ -9,7 +9,7 @@ import jobOpeningRouter from "./routes/jobOpening.routes";
 import referralRouter from "./routes/referral.routes";
 import notificationsRouter from "./routes/notification.routes";
 import candidateRouter from "./routes/candidate.routes";
-
+import notificationCronJob from "./config/cronObject";
 
 const server = express();
 
@@ -29,6 +29,8 @@ server.get("/", (request: Request, response: Response) => {
 (async () => {
   try {
     await dataSource.initialize();
+
+    notificationCronJob.startNotificationCronJob();
   } catch (e) {
     console.log("failed to initialize dataSource: ", e);
     process.exit(1);
