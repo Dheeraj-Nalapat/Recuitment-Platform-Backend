@@ -83,15 +83,17 @@ class ReferralService {
       result.candidateExists = true;
     }
     console.log(jobOpeningEntity.referrals[0].id);
-    const employeeReferral = jobOpeningEntity.referrals.filter(
-      async (referral) => {
-        let referralOfEmloyee = await this.getReferralById(referral.id);
-        if (referralOfEmloyee.referrer.id == employeeId) {
-          return true;
-        }
-        return false;
+    const jobOpeningReferral = jobOpeningEntity.referrals;
+    let employeeReferral = 0;
+    for (let i = 0; i < jobOpeningReferral.length; i++) {
+      let referralOfEmloyee = await this.getReferralById(
+        jobOpeningReferral[i].id
+      );
+      if (referralOfEmloyee.referrer.id == employeeId) {
+        employeeReferral += 1;
       }
-    );
+    }
+    console.log(employeeReferral);
     if (employeeReferral) {
       result.alreadyApplied = true;
     }
