@@ -64,7 +64,7 @@ class CandidateController {
     next: express.NextFunction
   ) => {
     try {
-      const candidateName = req.body.name;
+      const candidateName = req.params.name;
       const candidate = await this.candidateService.getCandidateByName(
         candidateName
       );
