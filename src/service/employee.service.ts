@@ -120,6 +120,7 @@ class EmployeeService {
       name: employee.name,
       email: employee.email,
       position: employee.position.name,
+      userId: employee.id,
     };
 
     const token = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
