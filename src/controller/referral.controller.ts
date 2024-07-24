@@ -15,7 +15,7 @@ class ReferralController {
     this.router.get("/candidate/:id", this.getAllReferralsByCandidate);
     this.router.get("/employee/:id", this.getAllReferralsByEmployee);
     this.router.get("/job/:id", this.getAllReferralsByJobOpening);
-    this.router.post("/", this.createReferral);
+    this.router.post("/", authorize, this.createReferral);
     this.router.put("/:id", this.updateReferral);
     this.router.delete("/:id", this.deleteReferral);
     this.router.post("/check", this.checkPreviousReferral);
@@ -149,11 +149,11 @@ class ReferralController {
 
         throw new HttpException(400, JSON.stringify(errors));
       }
-
+      console.log("herwekr", req.userId);
       const newReferral = await this.referralService.createReferral(
         req.body.state,
         req.body.bonusGiven,
-        req.body.userId,
+        req.userId,
         req.body.jobId,
         req.body.name,
         req.body.email,
