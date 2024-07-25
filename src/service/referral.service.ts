@@ -140,10 +140,11 @@ class ReferralService {
     if (!employee) {
       throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
     }
-
+    console.log(jobOpeningId, "=============================");
     const jobOpening = await this.jobOpeningService.getJobOpeningById(
       jobOpeningId
     );
+    console.log(jobOpening);
     if (!jobOpening) {
       throw ErrorCodes.JOB_OPENING_WITH_ID_NOT_FOUND;
     }
