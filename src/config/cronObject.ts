@@ -56,6 +56,12 @@ const notificationCronJob = new NotificationCronJob(
         )
       )
     )
+  ),
+  new EmployeeService(
+    new EmployeeRepository(dataSource.getRepository(Employee)),
+    new PositionService(
+      new PositionRepository(dataSource.getRepository(Position))
+    )
   )
 );
 
