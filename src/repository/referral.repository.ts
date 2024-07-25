@@ -23,7 +23,9 @@ class referralRepository {
       where: filter,
       // relations: ["referrer", "jobOpening", "referree"],
       relations: {
-        referrer: true,
+        referrer: {
+          position: true,
+        },
         referree: true,
         jobOpening: {
           position: true,
