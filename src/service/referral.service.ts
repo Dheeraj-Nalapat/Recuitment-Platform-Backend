@@ -222,8 +222,9 @@ class ReferralService {
         );
     }
     existingReferral.status = status;
-    existingReferral.bonusGiven = bonusGiven;
-
+    if (status == "accepted") {
+      existingReferral.bonusGiven = bonusGiven;
+    }
     if (status == Status.accepted) {
       if (!(existingReferral.jobOpening.noOfOpening - 1)) {
         const message = `Number of the openings for the Job Opening with ID:${existingReferral.jobOpening.id} is met.`;
