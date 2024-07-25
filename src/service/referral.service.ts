@@ -101,8 +101,8 @@ class ReferralService {
 
     const candidatesReferral = (
       await this.candidateService.getCandidateByEmail(email)
-    ).referrals;
-    for (let i = 0; i < candidatesReferral.length; i++) {
+    )?.referrals;
+    for (let i = 0; i < candidatesReferral?.length; i++) {
       let referralOfCandidate = await this.getReferralById(
         candidatesReferral[i].id
       );
