@@ -78,18 +78,19 @@ class ReferralService {
       email
     );
     if (!existingCandidate) {
-      return result;
     } else {
       result.candidateExists = true;
     }
-    console.log(jobOpeningEntity.referrals[0].id);
+    // console.log(jobOpeningEntity.referrals[0]);
     const jobOpeningReferral = jobOpeningEntity.referrals;
+    // console.log(jobOpeningReferral);
     let employeeReferral = 0;
     for (let i = 0; i < jobOpeningReferral.length; i++) {
       let referralOfEmloyee = await this.getReferralById(
         jobOpeningReferral[i].id
       );
-      if (referralOfEmloyee.referrer.id == employeeId) {
+      console.log("here", referralOfEmloyee?.referrer?.id);
+      if (referralOfEmloyee?.referrer?.id == employeeId) {
         employeeReferral += 1;
       }
     }
