@@ -10,6 +10,7 @@ import referralRouter from "./routes/referral.routes";
 import notificationsRouter from "./routes/notification.routes";
 import candidateRouter from "./routes/candidate.routes";
 import notificationCronJob from "./config/cronObject";
+import pdfRouter from "./routes/pdf.routes";
 
 const server = express();
 
@@ -22,6 +23,7 @@ server.use("/jobs", jobOpeningRouter);
 server.use("/referrals", referralRouter);
 server.use("/notifications", notificationsRouter);
 server.use("/candidates", candidateRouter);
+server.use("/pdf", pdfRouter);
 server.get("/", (request: Request, response: Response) => {
   response.status(201).send("home");
 });

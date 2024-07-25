@@ -36,6 +36,10 @@ export const ErrorCodes: { [key: string]: CustomError } = {
     CODE: "CANDIDATE_NOT_FOUND",
     MESSAGE: "Candidate not found, please enter candidate details",
   },
+  NO_FILE_UPLOADED: {
+    CODE: "NO_FILE_UPLOADED",
+    MESSAGE: "no file uploaded",
+  },
 };
 
 export interface CustomError {

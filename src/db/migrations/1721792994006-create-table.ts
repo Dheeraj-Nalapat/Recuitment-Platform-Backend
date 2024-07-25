@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateTable1721737216480 implements MigrationInterface {
-    name = 'CreateTable1721737216480'
+export class CreateTable1721792994006 implements MigrationInterface {
+    name = 'CreateTable1721792994006'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "candidate" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "name" character varying NOT NULL, "email" character varying NOT NULL, "experience" character varying NOT NULL, "resume" character varying NOT NULL, "skills" text NOT NULL, CONSTRAINT "UQ_80e766f22573be71b86b2f05371" UNIQUE ("email"), CONSTRAINT "PK_b0ddec158a9a60fbc785281581b" PRIMARY KEY ("id"))`);
@@ -10,6 +10,7 @@ export class CreateTable1721737216480 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "job_opening" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "description" text NOT NULL, "skills" text NOT NULL, "location" character varying NOT NULL, "experience" character varying NOT NULL, "no_of_opening" integer NOT NULL, "active" boolean NOT NULL, "position_id" integer, CONSTRAINT "PK_2fa80b3147363501d81b9f6bbf3" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "referral" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "status" character varying NOT NULL, "accept_date" TIMESTAMP, "bonus_given" boolean NOT NULL, "referrer_id" integer, "referree_id" integer, "job_opening_id" integer, CONSTRAINT "PK_a2d3e935a6591168066defec5ad" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "notifications" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "message" character varying NOT NULL, "read" boolean NOT NULL DEFAULT false, "employee_id" integer, CONSTRAINT "PK_6a72c3c0f683f6462415e653c3a" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "pdf_details" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "filename" character varying NOT NULL, "originalname" character varying NOT NULL, "path" character varying NOT NULL, "size" integer NOT NULL, CONSTRAINT "PK_c67130b7fb6b273d9aecb82bd46" PRIMARY KEY ("id"))`);
         await queryRunner.query(`ALTER TABLE "employee" ADD CONSTRAINT "FK_6ab3ec557a640017d53ac0e0ab7" FOREIGN KEY ("position_id") REFERENCES "position"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "job_opening" ADD CONSTRAINT "FK_054a9e44c85d96b3028b91677aa" FOREIGN KEY ("position_id") REFERENCES "position"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "referral" ADD CONSTRAINT "FK_f79e4f8d7f796b3fcb16894b527" FOREIGN KEY ("referrer_id") REFERENCES "employee"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -25,6 +26,7 @@ export class CreateTable1721737216480 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "referral" DROP CONSTRAINT "FK_f79e4f8d7f796b3fcb16894b527"`);
         await queryRunner.query(`ALTER TABLE "job_opening" DROP CONSTRAINT "FK_054a9e44c85d96b3028b91677aa"`);
         await queryRunner.query(`ALTER TABLE "employee" DROP CONSTRAINT "FK_6ab3ec557a640017d53ac0e0ab7"`);
+        await queryRunner.query(`DROP TABLE "pdf_details"`);
         await queryRunner.query(`DROP TABLE "notifications"`);
         await queryRunner.query(`DROP TABLE "referral"`);
         await queryRunner.query(`DROP TABLE "job_opening"`);
