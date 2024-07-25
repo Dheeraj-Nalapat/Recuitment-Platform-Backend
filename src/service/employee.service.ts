@@ -40,7 +40,17 @@ class EmployeeService {
     const employee = await this.employeeRepository.findOneBy({ id });
     if (employee) {
       const { referrals, ...employeeWithOutRefferal } = employee;
-      return referrals;
+      const result = [];
+      for (let i = 0; i < referrals.length; i++) {
+        let { status, bonusGiven, referree, jobOpening, ...rest } =
+          referrals[i];
+        let { id, name } = referree;
+        let position = jobOpening?.position;
+        let positionName = position?.name;
+        result.push({ id, name, positionName, status, bonusGiven });
+      }
+
+      return result;
     }
   };
 
