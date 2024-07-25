@@ -137,7 +137,7 @@ class ReferralController {
   };
 
   public createReferral = async (
-    req: RequestWithUser,
+    req: Request,
     res: Response,
     next: NextFunction
   ) => {
@@ -152,7 +152,7 @@ class ReferralController {
       const newReferral = await this.referralService.createReferral(
         req.body.state,
         req.body.bonusGiven,
-        req.userId,
+        req.body.employeeId,
         req.body.jobId,
         req.body.name,
         req.body.email,
