@@ -16,6 +16,7 @@ class EmployeeController {
     this.router = express.Router();
     this.router.get("/", this.getAllEmployees);
     this.router.get("/:id", this.getEmployeeById);
+    this.router.get("/referral", this.getEmployeeReferrals);
     this.router.post("/", this.createEmployee);
     this.router.put("/:id", this.updateEmployee);
     this.router.patch("/:id", this.updateEmployee);
@@ -56,6 +57,26 @@ class EmployeeController {
   ) => {
     try {
       const employeeId = Number(req.params.id);
+      const employee = await this.employeeService.getEmployeeById(employeeId);
+
+      if (!employee) {
+        throw ErrorCodes.EMPLOYEE_WITH_ID_NOT_FOUND;
+      }
+
+      res.status(200).send(employee);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  };
+
+  public getEmployeeReferrals = async (
+    req: RequestWithUser,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    try {
+      const employeeId = Number(req.userId);
       const employee = await this.employeeService.getEmployeeById(employeeId);
 
       if (!employee) {

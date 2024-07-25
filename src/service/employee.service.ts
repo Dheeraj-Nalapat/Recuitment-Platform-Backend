@@ -36,6 +36,14 @@ class EmployeeService {
     return null;
   };
 
+  getEmployeeReferrals = async (id: number) => {
+    const employee = await this.employeeRepository.findOneBy({ id });
+    if (employee) {
+      const { referrals, ...employeeWithOutRefferal } = employee;
+      return referrals;
+    }
+  };
+
   getEmployeeByEmail = async (email: string) => {
     return this.employeeRepository.findOneBy({ email });
   };
