@@ -24,7 +24,6 @@ export class ReferralDto {
 }
 
 export class UpdateReferralDto {
-
   @IsOptional()
   @IsEnum(Status)
   state: Status;
